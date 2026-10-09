@@ -25,7 +25,7 @@ export default function TourCalendar({selectedDay,onDay}:{selectedDay:TourDay;on
   window.addEventListener('online',refresh);
   return()=>{cancelled=true;clearInterval(timer);window.removeEventListener('online',refresh)};
  },[]);
- return <section className="tour-calendar-section" id="tour-calendar"><div className="tour-calendar-heading"><span>26 октября — 2 ноября 2026</span><button type="button" onClick={()=>onDay('all')} aria-pressed={selectedDay==='all'}>Весь маршрут</button></div><nav className="day-strip china-date-strip" aria-label="Даты путешествия">{calendarDays.map(d=>{
+ return <section className="tour-calendar-section" id="tour-calendar"><nav className="day-strip china-date-strip" aria-label="Даты путешествия"><button type="button" className={selectedDay==='all'?'current':''} aria-pressed={selectedDay==='all'} onClick={()=>onDay('all')}><small>ВСЯ ПОЕЗДКА</small><b>Весь маршрут</b><span className="tour-calendar-city">26 окт. — 2 нояб.</span></button>{calendarDays.map(d=>{
   const selected=selectedDay===d.day||(d.day===1&&selectedDay==='departure')||(d.day===8&&selectedDay==='return');
   const city=d.day===1?'svo':d.day===8?'chengdu':d.stops[0];
   const result=results[weatherKey(city,d.date)],reading=result?.reading;
