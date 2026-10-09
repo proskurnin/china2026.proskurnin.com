@@ -61,11 +61,11 @@
     "lng": 104.141944,
     "description": "Исследовательская база, которая занимается разведением и сохранением больших панд. Пройдём по территории центра и понаблюдаем за животными; конкретный маршрут определит гид.",
     "source": "https://www.panda.org.cn/en/",
-    "image": "/images/china/pandas.jpg",
-    "author": "Kreisverkehrsampel",
-    "license": "CC BY-SA 3.0",
-    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
-    "photoSource": "https://commons.wikimedia.org/wiki/File:Chengdu_Research_Base_Eingang.jpg"
+    "image": "/images/china/panda-feeding.jpg",
+    "author": "MspreilsCN",
+    "license": "CC BY 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:Panda_eating_bamboo_in_Panda_Base.jpg"
   },
   {
     "id": "park",
