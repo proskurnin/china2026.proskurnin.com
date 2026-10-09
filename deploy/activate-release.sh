@@ -20,7 +20,8 @@ previous=$(readlink -f "$site_root/current" || true)
 ln -s "$release" "$site_root/current-next"
 mv -Tf "$site_root/current-next" "$site_root/current"
 if ! actual=$(curl --fail --silent --show-error --max-time 15 \
-  -H 'Host: china2026.proskurnin.com' http://127.0.0.1/release.txt) || [ "$actual" != "$revision" ]; then
+  --resolve china2026.proskurnin.com:443:127.0.0.1 \
+  https://china2026.proskurnin.com/release.txt) || [ "$actual" != "$revision" ]; then
   if [ -n "$previous" ]; then
     ln -s "$previous" "$site_root/current-rollback"
     mv -Tf "$site_root/current-rollback" "$site_root/current"

@@ -25,7 +25,7 @@ Workflow .github/workflows/deploy.yml запускается при push в main
 6. Проверить успешный запуск https://github.com/proskurnin/china2026.proskurnin.com/actions
 
 Secrets: DEPLOY_SSH_KEY, DEPLOY_KNOWN_HOSTS.
-Variables: DEPLOY_HOST, DEPLOY_USER, DEPLOY_PORT (по умолчанию 80.87.199.223, root, 22).
+Variables: DEPLOY_HOST, DEPLOY_USER, DEPLOY_PORT (по умолчанию 80.87.199.223, china2026-deploy, 22).
 Не переносить старый ключ Google Maps Европы: его ограничения не подходят новому домену.
 
 ## Текущее состояние — 09.10.2026
@@ -52,3 +52,12 @@ https://github.com/proskurnin/europe2026.proskurnin.com/blob/main/.github/workfl
 
 Вылет: 26 октября 2026. От семьи — Роман и Артур; поездка школьного класса Артура.
 Даты программы не вычисляются из даты вылета до подтверждения даты прилёта в Чэнду.
+
+## Настройка Actions — 09.10.2026
+
+На VPS создан отдельный пользователь china2026-deploy без sudo, с правом записи
+в /var/www/china2026.proskurnin.com. Отдельный SSH-ключ Actions установлен
+с restrict; DEPLOY_SSH_KEY и DEPLOY_KNOWN_HOSTS сохранены в GitHub Secrets,
+DEPLOY_USER установлен в china2026-deploy. Приватный ключ не хранится в репозитории.
+Локальная проверка выпуска использует HTTPS с --resolve на 127.0.0.1,
+поскольку HTTP перенаправляется на HTTPS.
