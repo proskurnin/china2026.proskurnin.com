@@ -25,6 +25,7 @@ jobs:
       - name: Install, check and build
         run: |
           npm ci
+          npm run test:auth
           npx tsc --noEmit
           npm run build
           test -s dist/client/index.html
@@ -35,6 +36,10 @@ jobs:
           name: china2026-${{ github.sha }}
           path: ${{ runner.temp }}/china2026.tar.gz
           retention-days: 14
+      - name: Require installed authentication backend
+        run: |
+          curl --fail --silent --show-error --max-time 15 https://china2026.proskurnin.com/api/account/me -o "$RUNNER_TEMP/account-health.json"
+          node -e 'const d=require(process.env.RUNNER_TEMP+"/account-health.json"); if(d.user!==null) process.exit(1)'
       - name: Configure SSH
         env:
           DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
