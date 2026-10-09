@@ -201,3 +201,8 @@ body{background:#f5efdf;color:#263b32}.trip header,.topbar{background:#fffaf0;bo
 @media(max-width:900px){.china-tour .import-date{display:none}.china-hero{min-height:auto}.china-facts{gap:20px}.china-art-label{display:none}.china-price-grid{gap:12px}.china-price-grid article{padding:20px}}
 @media(max-width:650px){.china-tour header{height:75px;gap:12px}.china-header-note{display:none}.china-tour .brand b{font-size:25px}.china-tour .topbar{padding:0 4vw}.china-tour .topbar [data-slot=tabs-list]{gap:18px}.china-hero{grid-template-columns:1fr;padding:28px 6vw 0}.china-hero-copy{padding:0}.china-hero h1{font-size:49px}.china-lead{font-size:15px}.china-facts{gap:30px;margin-top:30px}.china-art{max-height:310px;overflow:hidden;align-items:flex-start;margin-top:10px}.china-landscape{margin-top:-25px}.china-section{padding:35px 6vw 50px}.china-city-grid,.china-info-grid,.china-price-grid,.china-questions{grid-template-columns:1fr}.china-day{padding:20px 16px;grid-template-columns:48px 1fr;gap:14px}.china-day-number b{font-size:34px}.china-day h2{font-size:24px}.china-day-meta{flex-wrap:wrap}.china-city-grid article,.china-info-grid article{padding:24px}.china-page-title{font-size:38px}.china-price-grid p{min-height:auto}.china-tour footer{flex-wrap:wrap;gap:12px}.china-tour footer span{font-size:12px}}
 @media print{.china-tour header,.china-tour .topbar,.china-tour footer,.china-art{display:none}.china-tour .china-section{padding:10px}.china-day{break-inside:avoid}.china-tour{background:#fff}}
+
+/* Same horizontal day strip as the Europe itinerary. */
+.china-tour .china-date-strip{margin-top:24px}
+.china-date-strip button:focus-visible{outline:2px solid #146c78;outline-offset:-3px}
+@media print{.china-date-strip{display:none}}

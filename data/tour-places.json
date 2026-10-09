@@ -1,0 +1,189 @@
+[
+  {
+    "id": "alleys",
+    "title": "Куаньчжай — широкие и узкие переулки",
+    "chinese": "宽窄巷子",
+    "days": [
+      1
+    ],
+    "lat": 30.6652,
+    "lng": 104.0526,
+    "description": "Улицы старого Чэнду с традиционными двориками. В программе первого вечера — неспешная прогулка, знакомство с городской архитектурой и местной кухней.",
+    "source": "https://commons.wikimedia.org/wiki/Category:Wide_and_Narrow_Alleys",
+    "image": "/images/china/alleys.jpg",
+    "author": "Daderot",
+    "license": "CC0",
+    "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:Street_scene_-_Kuanzhai_Alleys_-_Chengdu,_China_-_DSC05311.jpg"
+  },
+  {
+    "id": "wuhou",
+    "title": "Ухоуцы",
+    "chinese": "武侯祠",
+    "days": [
+      2
+    ],
+    "lat": 30.648306,
+    "lng": 104.047028,
+    "description": "Храмовый и музейный комплекс, посвящённый героям эпохи Троецарствия. Здесь интересно рассматривать павильоны, мемориальные залы и зелёные дворы.",
+    "source": "https://en.wuhouci.net.cn/",
+    "image": "/images/china/wuhou.jpg",
+    "author": "Daderot",
+    "license": "CC0",
+    "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:Wuhou_Shrine_-_Chengdu,_China_-_DSC05499.jpg"
+  },
+  {
+    "id": "qingyang",
+    "title": "Храм Голубой козы",
+    "chinese": "青羊宫",
+    "days": [
+      2
+    ],
+    "lat": 30.664019,
+    "lng": 104.040185,
+    "description": "Даосский храм Цинъянгун в Чэнду. Во время прогулки обратим внимание на традиционные крыши, резные детали и устройство храмовых дворов.",
+    "source": "https://commons.wikimedia.org/wiki/Category:Grey_Goat_Temple",
+    "image": "/images/china/qingyang.jpg",
+    "author": "Gary Todd from Xinzheng, China",
+    "license": "CC0",
+    "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:Qingyang_Taoist_Temple_(13936708164).jpg"
+  },
+  {
+    "id": "pandas",
+    "title": "Центр больших панд",
+    "chinese": "成都大熊猫繁育研究基地",
+    "days": [
+      3
+    ],
+    "lat": 30.738611,
+    "lng": 104.141944,
+    "description": "Исследовательская база, которая занимается разведением и сохранением больших панд. Пройдём по территории центра и понаблюдаем за животными; конкретный маршрут определит гид.",
+    "source": "https://www.panda.org.cn/en/",
+    "image": "/images/china/pandas.jpg",
+    "author": "Kreisverkehrsampel",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:Chengdu_Research_Base_Eingang.jpg"
+  },
+  {
+    "id": "park",
+    "title": "Народный парк",
+    "chinese": "人民公园",
+    "days": [
+      3
+    ],
+    "lat": 30.6595,
+    "lng": 104.0549,
+    "description": "Городской парк в центре Чэнду — место для спокойной прогулки и знакомства с повседневной жизнью города. Пауза среди зелени перед вечерним переездом.",
+    "source": "https://en.wikipedia.org/wiki/People%27s_Park_(Chengdu)",
+    "image": "/images/china/park.jpg",
+    "author": "Daderot",
+    "license": "CC0",
+    "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:Monument_to_the_Martyrs_of_the_Railway_Protection_Movement_-_Chengdu,_China_-_DSC05329.jpg"
+  },
+  {
+    "id": "bridge",
+    "title": "Стеклянный мост",
+    "chinese": "张家界大峡谷玻璃桥",
+    "days": [
+      4
+    ],
+    "lat": 29.3987,
+    "lng": 110.6982,
+    "description": "Прозрачная дорожка над глубоким ущельем. С моста открываются виды на склоны каньона — один из самых необычных ракурсов этой части путешествия.",
+    "source": "https://en.wikipedia.org/wiki/Zhangjiajie_Glass_Bridge",
+    "image": "/images/china/bridge.jpg",
+    "author": "HighestBridges",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:ZhangjiajieGlassByHighestBridges.jpg"
+  },
+  {
+    "id": "cave",
+    "title": "Пещера Жёлтого дракона",
+    "chinese": "黄龙洞",
+    "days": [
+      4
+    ],
+    "lat": 29.36803,
+    "lng": 110.61467,
+    "description": "Карстовая пещера Хуанлун с подземными залами и каменными образованиями. После открытых видов каньона нас ждёт совсем другой мир — под землёй.",
+    "source": "https://www.openstreetmap.org/node/2694283944",
+    "image": "/images/china/cave.jpg",
+    "author": "Brookqi",
+    "license": "Public domain",
+    "licenseUrl": "https://commons.wikimedia.org/wiki/File:Huanglongdong.JPG",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:Huanglongdong.JPG"
+  },
+  {
+    "id": "bailong",
+    "title": "Лифт «Сто драконов»",
+    "chinese": "百龙天梯",
+    "days": [
+      5
+    ],
+    "lat": 29.3515,
+    "lng": 110.4615,
+    "description": "Стеклянный лифт Байлун поднимается вдоль отвесной скалы в районе Улинъюань. Это часть горного дня; порядок посещений и дальнейший маршрут уточняются.",
+    "source": "https://en.wikipedia.org/wiki/Bailong_Elevator",
+    "image": "/images/china/bailong.jpg",
+    "author": "Nyx Ning",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:%E6%B9%96%E5%8D%97_%E5%BC%A0%E5%AE%B6%E7%95%8C_%E7%99%BE%E9%BE%99%E5%A4%A9%E6%A2%AF_-_panoramio.jpg"
+  },
+  {
+    "id": "tianzi",
+    "title": "Горы Тяньцзышань",
+    "chinese": "天子山",
+    "days": [
+      5
+    ],
+    "lat": 29.3941,
+    "lng": 110.4948,
+    "description": "Панорамы скальных столбов и зелёных ущелий Улинъюаня. В программе — экскурсия в горном районе и спуск по канатной дороге; последовательность остановок уточняется.",
+    "source": "https://commons.wikimedia.org/wiki/Category:Tianzi_Mountain",
+    "image": "/images/china/tianzi.jpg",
+    "author": "Jörg Radestock",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:China_Tianzi_Gebirge.JPG"
+  },
+  {
+    "id": "lake",
+    "title": "Озеро Баофэн",
+    "chinese": "宝峰湖",
+    "days": [
+      5
+    ],
+    "lat": 29.322528,
+    "lng": 110.552806,
+    "description": "Озеро среди гор в районе Улинъюань. В программе — прогулка на лодке: скальные склоны, зелень и отражения на воде.",
+    "source": "https://whhlyt.hunan.gov.cn/whhlyt/english/TourismInRegions/Zhangjiajie/ZhangjiajieAttractions/202206/t20220601_24797965.html",
+    "image": "/images/china/lake.jpg",
+    "author": "欧治",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:%E5%BC%A0%E5%AE%B6%E7%95%8C%E5%9B%BD%E5%AE%B6%E6%A3%AE%E6%9E%97%E5%85%AC%E5%9B%AD-%E5%AE%9D%E5%B3%B0%E6%B9%96_-_panoramio.jpg"
+  },
+  {
+    "id": "tianmen",
+    "title": "Тяньмэньшань — Небесные врата",
+    "chinese": "天门山",
+    "days": [
+      6
+    ],
+    "lat": 29.049881,
+    "lng": 110.478889,
+    "description": "Горный день с канатной дорогой, прогулочными тропами и природной аркой Тяньмэнь. В предложении указан подъём по 999 ступеням; доступные альтернативы нужно уточнить у организатора.",
+    "source": "https://en.wikipedia.org/wiki/Tianmen_Mountain",
+    "image": "/images/china/tianmen.jpg",
+    "author": "xiquinhosilva",
+    "license": "CC BY 2.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:Tianmen_38330-Zhangjiajie_(49047525877).jpg"
+  }
+]
