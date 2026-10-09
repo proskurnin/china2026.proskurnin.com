@@ -3,9 +3,9 @@ import {useState} from 'react';
 import {tourDate} from '@/lib/tour-route';
 import places from '@/data/tour-places.json';
 type Place=(typeof places)[number];
-export function PlacePhoto({place,hero=false}:{place:Place;hero?:boolean}){
+export function PlacePhoto({place,hero=false,priority=false}:{place:Place;hero?:boolean;priority?:boolean}){
  const [failed,setFailed]=useState(false);
- return <figure className={hero?'tour-day-photo':'tour-place-photo'}>{failed?<div className="tour-photo-fallback">{place.title}</div>:<img src={place.image} alt={place.title} loading="lazy" onError={()=>setFailed(true)}/>}<figcaption><a href={place.photoSource} target="_blank" rel="noreferrer">{place.author}</a> · <a href={place.licenseUrl} target="_blank" rel="noreferrer">{place.license}</a> · кадрирование</figcaption></figure>;
+ return <figure className={hero?'tour-day-photo':'tour-place-photo'}>{failed?<div className="tour-photo-fallback">{place.title}</div>:<img src={place.image} alt={place.title} loading={priority?'eager':'lazy'} fetchPriority={priority?'high':undefined} decoding="async" onError={()=>setFailed(true)}/>}<figcaption><a href={place.photoSource} target="_blank" rel="noreferrer">{place.author}</a> · <a href={place.licenseUrl} target="_blank" rel="noreferrer">{place.license}</a> · кадрирование</figcaption></figure>;
 }
 export default function DayPlaces({day,onMap}:{day:number;onMap:()=>void}){
  const current=places.filter(p=>p.days.includes(day));

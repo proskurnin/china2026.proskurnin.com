@@ -1,0 +1,116 @@
+/* A quiet travel-album finish. Scoped to the China overview. */
+.trip.china-tour {
+  --tour-ink: #23483d;
+  --tour-rust: #9b3e30;
+  --tour-line: #ddd5c5;
+  background-color: #f8f4eb;
+  background-image: radial-gradient(ellipse at 85% 12%,#e7e9d866,transparent 42%);
+}
+.china-tour > header {background:#fffcf5;border-bottom-color:var(--tour-line)}
+.china-tour .topbar {background:#fffcf5;border-bottom-color:var(--tour-line)}
+.china-tour .account-menu-link {border-radius:30px;padding:10px 19px;border-color:var(--tour-line)}
+.china-tour :is(button,a):focus-visible {outline:2px solid var(--tour-rust);outline-offset:4px}
+.china-tour .china-date-strip button:focus-visible {outline-offset:-4px}
+.china-tour .primary {border-radius:7px;box-shadow:0 5px 14px #23483d12}
+.china-tour .china-eyebrow {color:var(--tour-rust);line-height:1.65}
+.tour-welcome {position:relative;gap:5vw;padding-top:48px;padding-bottom:48px}
+.tour-welcome-copy {min-width:0}
+.tour-welcome-copy > .china-eyebrow {display:flex;align-items:center;gap:14px}
+.tour-welcome-copy > .china-eyebrow::before {content:'';height:1px;width:30px;background:var(--tour-rust);flex:none}
+.tour-welcome h1 {font-size:clamp(48px,5.5vw,80px);letter-spacing:-2.5px;line-height:1.08;color:var(--tour-ink);text-wrap:balance}
+.tour-welcome h1 em {color:var(--tour-rust)}
+.tour-welcome-lead {line-height:1.9;color:#57685d}
+.tour-welcome-stats {border-color:var(--tour-line);gap:0;max-width:470px}
+.tour-welcome-stats > div {flex:1;padding:0 22px;border-right:1px solid var(--tour-line)}
+.tour-welcome-stats > div:first-child {padding-left:0}
+.tour-welcome-stats > div:last-child {border:0;padding-right:0}
+.tour-welcome-stats b {font-variant-numeric:tabular-nums}
+.tour-welcome-main {border-radius:160px 160px 16px 16px;outline:1px solid #bca87966;outline-offset:8px;box-shadow:0 22px 42px #243b271a}
+.tour-welcome-inset {width:39%;transform:rotate(3deg);border-radius:5px;bottom:8px;right:-5px}
+.tour-welcome-photos {padding-bottom:64px}
+.tour-photo-seal {font-size:23px;top:50px;left:1px;box-shadow:0 3px 12px #283b2918}
+.china-tour .tour-flight-countdown {border-radius:12px;box-shadow:0 8px 24px #23483d0d}
+.china-tour .tour-calendar-section .china-date-strip {box-shadow:0 4px 14px #253b2606}
+.china-tour .china-date-strip button:not(.current):hover {background:#f0f2e9}
+.china-tour .china-map-aside {background:#fffcf5;border-color:var(--tour-line);box-shadow:0 8px 25px #233f2e06}
+.china-tour .china-map-canvas {border-color:var(--tour-line)}
+.china-tour .tour-map-switch {background:#fffcf5;border-color:var(--tour-line)}
+.china-tour .china-section-heading {display:flex;flex-direction:column;gap:4px;margin-bottom:28px}
+.china-tour .china-section-heading h2 {font-size:clamp(30px,3.5vw,44px);letter-spacing:-.8px;text-wrap:balance}
+.china-tour .china-city-grid {gap:28px}
+.china-tour .china-city-grid .tour-city-card {padding:0;border:1px solid var(--tour-line);border-radius:14px;overflow:hidden;box-shadow:0 10px 30px #213c2708;background:#fffcf5}
+.tour-city-card .tour-place-photo img {height:280px}
+.tour-city-copy {padding:28px 30px 26px}
+.tour-city-copy .china-city-index {font-size:10px;letter-spacing:2.5px}
+.china-tour .tour-city-copy h3 {font-size:39px;letter-spacing:-.7px;margin:14px 0;color:var(--tour-ink)}
+.tour-city-copy > p {font-size:15px;line-height:1.85;min-height:56px}
+.tour-city-dates {display:block;margin-top:22px;font-size:12px;color:#5b695b}
+.tour-city-link {display:flex;justify-content:space-between;align-items:center;width:100%;gap:15px;text-align:left;padding:18px 0 0;margin-top:20px;border-top:1px solid var(--tour-line);color:var(--tour-rust);font-size:13px}
+.china-tour .tour-schedule-intro {display:flex;justify-content:space-between;align-items:center;gap:28px;padding-top:30px;padding-bottom:20px}
+.tour-schedule-intro h1 {font-size:clamp(30px,3.4vw,44px);letter-spacing:-1px;color:var(--tour-ink)}
+.tour-schedule-intro > div > p:last-child {font-size:14px;color:#617062;max-width:580px}
+.tour-schedule-photos {display:grid;grid-template-columns:repeat(3,1fr);gap:10px;width:340px;flex:none}
+.tour-schedule-photos .tour-place-photo {border-radius:7px;border:3px solid #fffcf5;box-shadow:0 3px 12px #23483d12}
+.tour-schedule-photos .tour-place-photo img {height:112px}
+.tour-schedule-photos figcaption {font-size:7px;padding:15px 4px 3px;line-height:1.3}
+.china-tour .china-day {border:1px solid var(--tour-line);border-radius:14px;background:#fffcf5;box-shadow:0 6px 26px #23483d06;padding:32px;gap:28px}
+.china-tour .china-day-number {color:var(--tour-rust);border-color:var(--tour-line)}
+.china-tour .china-day-number b {font-size:46px}
+.china-tour .china-day-meta {justify-content:flex-start;flex-wrap:wrap;gap:8px 14px;align-items:center}
+.china-day-meta > span:first-child {font-size:11px;background:#edf0e6;color:var(--tour-ink);border-radius:30px;padding:5px 10px}
+.china-tour .china-day h2 {font-size:clamp(26px,2.8vw,34px);line-height:1.2;letter-spacing:-.5px;text-wrap:balance}
+.china-tour .china-day li {padding:3px 0 3px 4px}
+.china-tour .china-day li::marker {color:#ab8060}
+.china-tour .china-meals {background:#f3f0e6;padding:11px 14px;border-radius:7px;color:#746044;align-items:flex-start;line-height:1.6}
+.china-meals svg {flex:none;margin-top:2px}
+.china-tour .tour-place-card {border-color:#e3dfd1;border-radius:10px;background:white;box-shadow:0 2px 9px #23483d04}
+.china-tour .tour-place-copy {padding:22px}
+.china-tour .tour-place-copy small {font-size:10px;line-height:1.6;letter-spacing:1px}
+.china-tour .tour-place-copy h3 {font-size:27px;color:var(--tour-ink);letter-spacing:-.4px}
+.china-tour .tour-place-copy p {line-height:1.8}
+.china-tour .tour-place-actions {border-top:1px solid #eae6da;padding-top:10px;color:var(--tour-rust)}
+.china-tour .china-info-grid article,.china-tour .china-price-grid article,.china-tour .china-questions article {border-radius:12px}
+.china-tour footer {border-top:1px solid var(--tour-line);background:#eeeee3;color:#526557;margin-top:20px}
+@media(hover:hover) and (prefers-reduced-motion:no-preference) {
+  .tour-place-photo img {transition:transform .6s ease}
+  .tour-city-card:hover .tour-place-photo img,.tour-place-card:hover .tour-place-photo img {transform:scale(1.025)}
+  .tour-city-link svg {transition:transform .2s ease}
+  .tour-city-link:hover svg {transform:translateX(4px)}
+  .china-tour .account-menu-link,.china-tour .primary {transition:background-color .2s,box-shadow .2s}
+  .china-tour .primary:hover {box-shadow:0 8px 20px #23483d22}
+}
+@media(max-width:900px) {
+  .tour-welcome {gap:30px}
+  .tour-welcome h1 {font-size:53px}
+  .tour-schedule-photos {width:235px;gap:6px}
+  .tour-schedule-photos .tour-place-photo img {height:100px}
+  .tour-city-card .tour-place-photo img {height:220px}
+  .tour-city-copy {padding:24px}
+}
+@media(max-width:650px) {
+  .china-tour > header {height:76px}
+  .china-tour > header .family-label {display:none}
+  .china-tour .account-menu-link {padding:9px 14px;font-size:13px}
+  .tour-welcome {padding:32px 6vw 26px;gap:34px}
+  .tour-welcome h1 {font-size:clamp(43px,10.8vw,57px);letter-spacing:-1.8px}
+  .tour-welcome-copy > .china-eyebrow {font-size:9px;letter-spacing:1.6px;gap:10px}
+  .tour-welcome-copy > .china-eyebrow::before {width:18px}
+  .tour-welcome-stats > div {padding:0 16px}
+  .tour-welcome-stats span {font-size:10px}
+  .tour-welcome-main {border-radius:95px 95px 12px 12px;outline-offset:5px}
+  .tour-welcome-inset {right:0}
+  .china-tour .tour-schedule-intro {padding-top:26px;gap:20px;display:block}
+  .tour-schedule-photos {width:100%;max-width:420px;gap:10px;margin-top:20px}
+  .tour-schedule-photos .tour-place-photo img {height:105px}
+  .tour-schedule-photos figcaption {font-size:8px}
+  .china-tour .china-day {padding:20px 16px;gap:18px;grid-template-columns:1fr}
+  .china-tour .china-day-number {flex-direction:row;align-items:center;gap:12px;padding-bottom:12px;border-right:0;border-bottom:1px solid var(--tour-line)}
+  .china-tour .china-day-number b {font-size:30px;position:static}
+  .china-tour .tour-place-copy {padding:18px}
+  .tour-city-copy {padding:23px}
+}
+@media print {
+  .china-tour {background:white}
+  .tour-schedule-photos,.tour-city-link {display:none}
+  .china-tour .china-day,.china-tour .tour-city-card {box-shadow:none}
+}
