@@ -1,5 +1,6 @@
 'use client';
 import {useState} from 'react';
+import {tourDate} from '@/lib/tour-route';
 import places from '@/data/tour-places.json';
 type Place=(typeof places)[number];
 export function PlacePhoto({place,hero=false}:{place:Place;hero?:boolean}){
@@ -8,6 +9,6 @@ export function PlacePhoto({place,hero=false}:{place:Place;hero?:boolean}){
 }
 export default function DayPlaces({day,onMap}:{day:number;onMap:()=>void}){
  const current=places.filter(p=>p.days.includes(day));
- if(!current.length)return <div className="tour-day-context"><PlacePhoto place={places[0]} hero/><p>Чэнду · городская атмосфера. Конкретные места прогулки {day===7?'и площадка Сычуаньской оперы':'в свободное время'} уточняются.</p></div>;
- return <div className="tour-place-grid">{current.map(p=><article className="tour-place-card" key={p.id}><PlacePhoto place={p}/><div className="tour-place-copy"><small>{p.chinese}</small><h3>{p.title}</h3><p>{p.description}</p><div className="tour-place-actions"><button onClick={onMap}>На карте ↗</button><a href={p.source} target="_blank" rel="noreferrer">О месте ↗</a></div></div></article>)}</div>;
+ if(!current.length)return <div className="tour-day-context"><PlacePhoto place={places[0]} hero/><p><b>{tourDate(day)} 2026</b> · Чэнду · городская атмосфера. Конкретные места прогулки {day===7?'и площадка Сычуаньской оперы':'в свободное время'} уточняются.</p></div>;
+ return <div className="tour-place-grid">{current.map(p=><article className="tour-place-card" key={p.id}><PlacePhoto place={p}/><div className="tour-place-copy"><small>{tourDate(day)} 2026 · {p.chinese}</small><h3>{p.title}</h3><p>{p.description}</p><div className="tour-place-actions"><button onClick={onMap}>На карте ↗</button><a href={p.source} target="_blank" rel="noreferrer">О месте ↗</a></div></div></article>)}</div>;
 }

@@ -14,8 +14,8 @@ function curve(from:Point,to:Point,bend:number):Point[]{
 }
 export const transfers=[
  {id:'outbound',day:'departure' as TourDay,mode:'flight',title:'Шереметьево → Чэнду',label:'26 октября · туда',color:'#b67d25',path:curve(routeStops.svo.point,routeStops.chengdu.point,8),note:'Дата и аэропорт вылета подтверждены. Время и аэропорт прибытия уточняются.'},
- {id:'train-out',day:3 as TourDay,mode:'train',title:'Чэнду → Чжанцзяцзе',label:'День 3 · поезд',color:'#287d78',path:curve(routeStops.chengdu.point,routeStops.zhangjiajie.point,.8),note:'G2451 · 17:13–22:18 по предложению; билеты не подтверждены.'},
- {id:'train-back',day:7 as TourDay,mode:'train',title:'Чжанцзяцзе → Чэнду',label:'День 7 · поезд',color:'#576bac',path:curve(routeStops.zhangjiajie.point,routeStops.chengdu.point,.8),note:'G2450 · 09:55–14:20 по предложению; билеты не подтверждены.'},
+ {id:'train-out',day:3 as TourDay,mode:'train',title:'Чэнду → Чжанцзяцзе',label:'28 октября · поезд',color:'#287d78',path:curve(routeStops.chengdu.point,routeStops.zhangjiajie.point,.8),note:'G2451 · 17:13–22:18 по предложению; билеты не подтверждены.'},
+ {id:'train-back',day:7 as TourDay,mode:'train',title:'Чжанцзяцзе → Чэнду',label:'1 ноября · поезд',color:'#576bac',path:curve(routeStops.zhangjiajie.point,routeStops.chengdu.point,.8),note:'G2450 · 09:55–14:20 по предложению; билеты не подтверждены.'},
  {id:'return',day:'return' as TourDay,mode:'flight',title:'Чэнду → Шереметьево',label:'2 ноября · домой',color:'#ae4035',path:curve(routeStops.chengdu.point,routeStops.svo.point,8),note:'Возвращение 2 ноября в Шереметьево. Время и аэропорт вылета уточняются.'},
 ];
 export function routeForDay(day:TourDay){
@@ -26,3 +26,5 @@ export function routeForDay(day:TourDay){
  const stops=Object.values(routeStops).filter(s=>s.id==='svo'?showFlights:s.id==='zhangjiajie'?activeTransfers.some(t=>t.mode==='train'):activeTransfers.length>0);
  return {activePlaces,activeTransfers,localLines,stops};
 }
+
+export function tourDate(day:number){return new Date(Date.UTC(2026,9,25+day)).toLocaleDateString('ru-RU',{day:'numeric',month:'long',timeZone:'UTC'});}
