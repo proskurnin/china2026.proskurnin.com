@@ -114,3 +114,71 @@
   .tour-schedule-photos,.tour-city-link {display:none}
   .china-tour .china-day,.china-tour .tour-city-card {box-shadow:none}
 }
+
+/* Open atlas: one broad map, followed by compact travel stages. */
+.china-tour .tour-atlas {max-width:1440px;padding-top:32px}
+.tour-atlas .china-map-heading {margin-bottom:18px;align-items:flex-end}
+.tour-atlas .china-map-heading h2 {font-size:clamp(28px,3.2vw,42px);letter-spacing:-.8px;max-width:900px;margin:10px 0 0;color:var(--tour-ink)}
+.tour-atlas .tour-map-switch {margin:0;padding:16px 20px;border-radius:14px 14px 0 0;border-bottom:0;gap:6px;background:#fffcf5}
+.tour-atlas .tour-map-switch > span {font-size:12px;letter-spacing:.2px;color:#425c4c}
+.tour-atlas .tour-map-switch i {font-style:normal;color:#a57c45;padding:0 8px}
+.tour-atlas .tour-map-switch button {font-size:12px;border-radius:30px;padding:8px 14px}
+.tour-atlas .china-map-layout {display:block}
+.tour-atlas .china-map-canvas {height:480px;border-radius:0 0 14px 14px;box-shadow:0 12px 28px #233e2810}
+.tour-atlas .china-map-key {gap:12px 24px;font-size:11px;padding-top:18px}
+.tour-atlas .china-map-note {max-width:950px;font-size:11px;line-height:1.7}
+.tour-atlas-stages {display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;margin:26px 0;background:#fffcf5;border:1px solid var(--tour-line);border-radius:12px;overflow:hidden}
+.tour-atlas-stages > button {position:relative;display:flex;align-items:flex-start;flex-direction:column;text-align:left;gap:10px;padding:23px 22px;border-right:1px solid var(--tour-line);min-width:0}
+.tour-atlas-stages > button:last-child {border-right:0}
+.tour-atlas-stages > button:hover {background:#f0f2e8}
+.tour-atlas-stages small {font-size:10px;color:var(--tour-rust);letter-spacing:.6px;padding-right:24px}
+.tour-atlas-stages b {font-size:14px;line-height:1.6;color:var(--tour-ink);font-weight:600}
+.tour-atlas-stages button > span:last-child {font-size:11px;line-height:1.65;color:#687365}
+.tour-stage-number {position:absolute;right:16px;top:18px;color:#c9c0aa;font:20px Georgia,serif}
+.tour-atlas-places {border-top:1px solid var(--tour-line);padding:18px 0 0}
+.tour-atlas-places summary {cursor:pointer;color:var(--tour-ink);font-size:14px;padding:4px 0;list-style-position:inside}
+.tour-atlas-places summary > span {color:#8a7f68;font-size:12px;margin-left:8px}
+.tour-atlas .china-map-places {display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.tour-atlas .china-map-places button {border:1px solid var(--tour-line);border-radius:30px;padding:7px 13px 7px 7px;background:#fffcf5;font-size:12px;gap:8px}
+.tour-atlas .china-map-places button span {min-width:23px;width:23px;height:23px;font-size:10px;background:#e9ecdf;color:var(--tour-ink)}
+.tour-atlas .china-map-places button.selected {border-color:#365e49;background:#e9eee3}
+.tour-atlas-detail {position:relative;display:grid;grid-template-columns:260px 1fr;gap:26px;margin-top:24px;padding:22px 50px 22px 22px;border:1px solid var(--tour-line);border-radius:12px;background:#fffcf5}
+.tour-atlas-detail img {width:100%;height:190px;object-fit:cover;border-radius:6px}
+.tour-atlas-detail small {font-size:11px;color:var(--tour-rust)}
+.tour-atlas-detail h3 {font:30px/1.2 Georgia,serif;color:var(--tour-ink);margin:12px 0}
+.tour-atlas-detail p {font-size:14px;line-height:1.8;color:#5c6d5e}
+.tour-atlas-detail .tour-photo-credit {font-size:9px;margin-top:6px}
+.tour-detail-close {position:absolute;right:12px;top:12px;width:32px;height:32px;border:1px solid var(--tour-line);border-radius:50%;font-size:23px;color:#687365}
+/* Restrained cinnabar and brass details inspired by lattice frames. */
+.trip.china-tour {background-size:auto;background-repeat:no-repeat;background-image:radial-gradient(ellipse at 90% 5%,#e8bd7c22,transparent 36%),radial-gradient(ellipse at 8% 50%,#bdcbb522,transparent 42%)}
+.tour-welcome-photos::before {content:'';position:absolute;width:190px;height:190px;border:1px solid #b9996155;border-radius:50%;right:-18px;top:-18px;pointer-events:none}
+.tour-welcome-copy::after {content:'山 水';display:block;font:17px Georgia,serif;letter-spacing:12px;color:#a78a59;margin-top:24px;opacity:.7}
+.china-tour .china-section-heading::before {content:'';display:block;width:42px;height:9px;border-top:1px solid #b99961;border-left:1px solid #b99961;border-right:1px solid #b99961;margin-bottom:15px}
+.china-tour .tour-city-copy {position:relative}
+.china-tour .tour-city-copy::after {content:'';position:absolute;width:15px;height:15px;right:19px;top:20px;border-top:1px solid #b9996199;border-right:1px solid #b9996199;pointer-events:none}
+.china-tour .china-day-number {position:relative}
+.china-tour .china-day-number span {color:var(--tour-rust)}
+.china-tour .china-day-number b {font-weight:400}
+@media(max-width:900px) {
+ .tour-atlas .tour-map-switch > span {width:100%;margin-bottom:6px}
+ .tour-atlas-stages {grid-template-columns:repeat(2,minmax(0,1fr))}
+ .tour-atlas-stages > button:nth-child(2) {border-right:0}
+ .tour-atlas-stages > button:nth-child(-n+2) {border-bottom:1px solid var(--tour-line)}
+ .tour-atlas .china-map-canvas {height:420px}
+}
+@media(max-width:650px) {
+ .tour-welcome-photos::before {right:0;width:140px;height:140px;top:-12px}
+ .tour-welcome-copy::after {margin-top:18px;font-size:14px}
+ .tour-atlas .china-map-canvas {height:360px}
+ .tour-atlas .tour-map-switch {padding:13px 12px}
+ .tour-atlas .tour-map-switch > span {font-size:10px;line-height:1.8}
+ .tour-atlas .tour-map-switch i {padding:0 3px}
+ .tour-atlas-stages > button {padding:18px 14px}
+ .tour-atlas-stages b {font-size:12px}
+ .tour-stage-number {display:none}
+ .tour-atlas-stages small {padding:0;font-size:10px}
+ .tour-atlas-detail {grid-template-columns:1fr;padding:20px;gap:14px}
+ .tour-atlas-detail > div:first-child {padding-right:24px}
+ .tour-atlas-detail h3 {font-size:25px}
+}
+@media print {.tour-welcome-copy::after,.tour-welcome-photos::before{display:none}}
