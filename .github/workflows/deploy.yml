@@ -18,6 +18,10 @@ jobs:
         with:
           node-version: '22.22.2'
           cache: npm
+      - name: Reuse owner Google Maps configuration from Europe
+        run: |
+          curl --fail --silent --show-error --retry 2 --max-time 20 https://europe2026.proskurnin.com/maps-config.json -o public/maps-config.json
+          node -e 'const c=JSON.parse(require("fs").readFileSync("public/maps-config.json","utf8")); if(typeof c.key!=="string" || !c.key) process.exit(1)'
       - name: Install, check and build
         run: |
           npm ci
