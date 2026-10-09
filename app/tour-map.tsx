@@ -1,7 +1,7 @@
 'use client';
 import {useEffect,useState,lazy,Suspense} from 'react';
 import places from '@/data/tour-places.json';
-import tour from '@/data/tour.json';
+import tour from '@/data/public-tour.json';
 import {routeForDay,transfers,tourDate,type TourDay} from '@/lib/tour-route';
 const GoogleMap=lazy(()=>import('./tour-google-map'));
 const OsmMap=lazy(()=>import('./tour-osm-map'));

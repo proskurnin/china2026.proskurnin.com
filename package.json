@@ -7,11 +7,12 @@
   },
   "scripts": {
     "dev": "vinext dev",
-    "build": "vinext build",
+    "build": "node scripts/export-public-tour.mjs && vinext build && node scripts/export-public-tour.mjs --apache",
     "start": "wrangler dev --config dist/server/wrangler.json",
     "lint": "oxlint",
     "format": "oxfmt",
-    "db:generate": "drizzle-kit generate"
+    "db:generate": "drizzle-kit generate",
+    "test:auth": "node --test server/account/*.test.mjs"
   },
   "dependencies": {
     "@base-ui/react": "1.7.0",

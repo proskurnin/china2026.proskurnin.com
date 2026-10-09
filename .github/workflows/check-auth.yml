@@ -1,0 +1,21 @@
+name: Check China accounts
+on:
+  push:
+    branches: [feature/china-accounts]
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22.22.2'
+          cache: npm
+      - run: npm ci
+      - run: npm run test:auth
+      - run: npx tsc --noEmit
+      - run: npm run build
+      - run: test -s dist/client/account/index.html
