@@ -1,10 +1,17 @@
 {
   "schemaVersion": 1,
-  "version": "china2026-20261009-01",
+  "version": "china2026-20261009-02",
   "importedAt": "2026-10-09T13:37:00Z",
   "sourceDocument": "",
   "sourceTabs": [],
-  "family": {},
+  "family": {
+    "members": [
+      "Роман",
+      "Артур"
+    ],
+    "travelContext": "Школьный класс Артура",
+    "departureDate": "2026-10-26"
+  },
   "cities": {},
   "days": [],
   "places": [],
@@ -13,6 +20,6 @@
   "expenses": [],
   "checks": [],
   "issues": [
-    "Даты, участники и маршрут ещё не добавлены."
+    "Вылет 26 октября 2026. Дата прилёта и календарные даты программы требуют уточнения."
   ]
 }

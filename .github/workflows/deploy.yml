@@ -1,0 +1,70 @@
+name: Release China 2026 to server
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: china2026-production
+  cancel-in-progress: false
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22.22.2'
+          cache: npm
+      - name: Install, check and build
+        run: |
+          npm ci
+          npx tsc --noEmit
+          npm run build
+          test -s dist/client/index.html
+          printf '%s\n' "$GITHUB_SHA" > dist/client/release.txt
+          tar -czf "$RUNNER_TEMP/china2026.tar.gz" -C dist/client .
+      - uses: actions/upload-artifact@v4
+        with:
+          name: china2026-${{ github.sha }}
+          path: ${{ runner.temp }}/china2026.tar.gz
+          retention-days: 14
+      - name: Configure SSH
+        env:
+          DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+          DEPLOY_KNOWN_HOSTS: ${{ secrets.DEPLOY_KNOWN_HOSTS }}
+        run: |
+          test -n "$DEPLOY_SSH_KEY" || { echo 'Missing DEPLOY_SSH_KEY'; exit 1; }
+          test -n "$DEPLOY_KNOWN_HOSTS" || { echo 'Missing DEPLOY_KNOWN_HOSTS'; exit 1; }
+          install -d -m 700 ~/.ssh
+          printf '%s\n' "$DEPLOY_SSH_KEY" > ~/.ssh/id_ed25519
+          printf '%s\n' "$DEPLOY_KNOWN_HOSTS" > ~/.ssh/known_hosts
+          chmod 600 ~/.ssh/id_ed25519 ~/.ssh/known_hosts
+      - name: Upload and activate release
+        env:
+          DEPLOY_HOST: ${{ vars.DEPLOY_HOST || '80.87.199.223' }}
+          DEPLOY_USER: ${{ vars.DEPLOY_USER || 'root' }}
+          DEPLOY_PORT: ${{ vars.DEPLOY_PORT || '22' }}
+        run: |
+          scp -P "$DEPLOY_PORT" -o BatchMode=yes -o StrictHostKeyChecking=yes \
+            "$RUNNER_TEMP/china2026.tar.gz" \
+            "$DEPLOY_USER@$DEPLOY_HOST:/tmp/china2026-$GITHUB_SHA-$GITHUB_RUN_ID.tar.gz"
+          ssh -p "$DEPLOY_PORT" -o BatchMode=yes -o StrictHostKeyChecking=yes \
+            "$DEPLOY_USER@$DEPLOY_HOST" "bash -s -- $GITHUB_SHA $GITHUB_RUN_ID" \
+            < deploy/activate-release.sh
+      - name: Verify public HTTPS release
+        run: |
+          for attempt in 1 2 3 4 5; do
+            if [ "$(curl --fail --silent --show-error --max-time 15 https://china2026.proskurnin.com/release.txt)" = "$GITHUB_SHA" ]; then
+              echo 'Published release verified over HTTPS'
+              exit 0
+            fi
+            sleep 5
+          done
+          echo 'HTTPS release verification failed; inspect server and TLS configuration'
+          exit 1
+      - name: Remove runner SSH credentials
+        if: always()
+        run: rm -f ~/.ssh/id_ed25519 ~/.ssh/known_hosts
