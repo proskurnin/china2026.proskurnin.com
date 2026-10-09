@@ -20,7 +20,7 @@ export const transfers=[
 ];
 export function routeForDay(day:TourDay){
  const activePlaces=places.filter(p=>day==='all'||typeof day==='number'&&p.days.includes(day));
- const activeTransfers=transfers.filter(t=>day==='all'||t.day===day||day===8&&t.id==='return');
+ const activeTransfers=transfers.filter(t=>day==='all'||t.day===day||day===1&&t.id==='outbound'||day===8&&t.id==='return');
  const localLines=(day==='all'?[1,2,3,4,5,6]:typeof day==='number'?[day]:[]).map(d=>({day:d,path:places.filter(p=>p.days.includes(d)).map(p=>[p.lat,p.lng] as Point)})).filter(x=>x.path.length>1);
  const showFlights=activeTransfers.some(t=>t.mode==='flight');
  const stops=Object.values(routeStops).filter(s=>s.id==='svo'?showFlights:s.id==='zhangjiajie'?activeTransfers.some(t=>t.mode==='train'):activeTransfers.length>0);
