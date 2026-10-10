@@ -249,5 +249,28 @@
         }
       ]
     }
+  },
+  "flightCost": {
+    "currency": "RUB",
+    "perPerson": 75000,
+    "travelers": [
+      "Роман",
+      "Артур"
+    ],
+    "total": 150000,
+    "description": "Авиабилеты туда и обратно",
+    "source": "Стоимость подтверждена Романом"
+  },
+  "tourPayment": {
+    "currency": "USD",
+    "perPerson": 1270,
+    "travelers": [
+      "Роман",
+      "Артур"
+    ],
+    "total": 2540,
+    "description": "Проживание и программа",
+    "status": "Оплачено",
+    "source": "Оплата подтверждена Романом"
   }
 }

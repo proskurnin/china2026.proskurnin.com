@@ -37,7 +37,7 @@ export function createApp({dbPath,planPath,origin,tourPath,secure=true}) {
     if(!body||typeof body!=='object'||Array.isArray(body))throw problem(400,'Некорректные данные.');
    }
    const ip=String(req.headers['x-forwarded-for']||req.socket.remoteAddress||'unknown').split(',').at(-1).trim();
-   if(path==='/api/trip/tour'&&method==='GET'){requireMember(user);return send(res,200,{prices:tour?.prices||[],questions:tour?.questions||[],packing:tour?.packing||null});}
+   if(path==='/api/trip/tour'&&method==='GET'){requireMember(user);return send(res,200,{prices:tour?.prices||[],questions:tour?.questions||[],packing:tour?.packing||null,flightCost:tour?.flightCost||null,tourPayment:tour?.tourPayment||null});}
    if(path==='/api/account/me'&&method==='GET')return send(res,200,{user:publicUser(user)});
    if(path==='/api/account/login'&&method==='POST'){
     throttle('login-ip:'+ip,30);const email=emailAddress(body.email);throttle('login-email:'+digest(email),12);
