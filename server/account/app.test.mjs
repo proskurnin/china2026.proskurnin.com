@@ -34,6 +34,7 @@ test('Roles, sessions, invitations, protected data and owner-only writes',async(
   }
   assert.equal((await request('/api/trip/tour',{cookie:cookies.viewer})).status,403);
   assert.deepEqual((await request('/api/trip/tour',{cookie:cookies.participant})).data.prices,JSON.parse(readFileSync(tourPath,'utf8')).prices);
+  assert.deepEqual((await request('/api/trip/tour',{cookie:cookies.participant})).data.packing,JSON.parse(readFileSync(tourPath,'utf8')).packing);
   // Personal data belongs to the signed-in account and survives service restarts.
   assert.equal((await request('/api/trip/storage')).status,401);
   assert.equal((await request('/api/trip/storage',{cookie:cookies.viewer})).status,403);

@@ -233,3 +233,11 @@
  .tour-gallery-picture figcaption {font-size:8px}
 }
 @media(max-width:360px) {.tour-gallery-grid {grid-template-columns:1fr}.tour-gallery-wide {grid-column:auto}.tour-gallery-copy h3 {min-height:0}}
+
+/* The packing payload is served only by the authenticated participant API. */
+.tour-packing .china-info-grid{align-items:start}
+.tour-packing .china-info-grid li{align-items:flex-start;line-height:1.65}
+.tour-packing-power{margin:28px 0 44px;padding:clamp(20px,4vw,36px);border:1px solid #cda65c;border-radius:18px;background:#fbf5e7}
+.tour-packing-power h2{margin-top:0}
+.tour-packing-power li{margin:10px 0;line-height:1.65}
+.tour-packing-power a{display:inline-block;margin:8px 20px 0 0;color:#8b382d;text-decoration:underline}
