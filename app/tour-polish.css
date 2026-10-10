@@ -304,3 +304,18 @@
  .tour-eastern-side {padding-top:10px}
  .china-tour .tour-water-print .tour-day-photo img {height:160px}
 }
+
+/* Hotels listed in the operator itinerary; dates remain unconfirmed. */
+.tour-stays {margin:24px 0 40px}
+.tour-stays-intro {max-width:800px;font-size:14px;line-height:1.8;color:#617062;margin-bottom:26px}
+.tour-stays-grid {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}
+.tour-stay {display:flex;flex-direction:column;min-width:0;padding:26px;border:1px solid var(--tour-line);border-top:3px solid #b69b67;background:#fffcf5;border-radius:4px 4px 12px 12px}
+.tour-stay-meta {display:flex;align-items:center;justify-content:space-between;gap:12px;color:var(--tour-rust);font-size:11px;letter-spacing:1px}
+.tour-stay-meta b {font:25px Georgia,serif;color:#b69b67}
+.china-tour .tour-stay h3 {font:26px/1.2 Georgia,serif;color:var(--tour-ink);margin:22px 0 12px;overflow-wrap:anywhere}
+.tour-stay > p {font-size:13px;line-height:1.8;color:#657060}
+.tour-stay .tour-stay-date {font-size:11px;color:#8a6545;margin:0 0 12px}
+.tour-stay-links {margin-top:auto;padding-top:18px;display:grid;gap:12px}
+.tour-stay-links a {display:flex;justify-content:space-between;gap:10px;border-top:1px solid var(--tour-line);padding-top:12px;font-size:12px;color:var(--tour-rust);line-height:1.6}
+.tour-stay-links a:hover {color:var(--tour-ink);text-decoration:underline}
+@media(max-width:900px){.tour-stays-grid{grid-template-columns:1fr}.tour-stay{padding:23px}.china-tour .tour-stay h3{margin-top:14px}}
