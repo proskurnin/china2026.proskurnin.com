@@ -37,7 +37,7 @@ export default function TripMap({plan,visits,day,selected,onSelect,overview=fals
   for(const t of plan.transfers.filter(t=>overview||!day||t.date===day.date)){
    const f=plan.cities[t.from],to=plan.cities[t.to];if(!f||!to)continue;
    const path=[{lat:f[1],lng:f[2]},{lat:to[1],lng:to[2]}];
-   lines.push(new google.maps.Polyline({map:m,path,geodesic:t.mode==='flight',strokeOpacity:0,strokeWeight:2.5,icons:[{icon:{path:'M 0,-1 0,1',strokeOpacity:.8,strokeColor:t.mode==='flight'?'#c68138':t.mode==='unknown'?'#7a7f89':'#217785',scale:2.5},offset:'0',repeat:t.mode==='unknown'?'14px':'10px'}]}));
+   lines.push(new google.maps.Polyline({map:m,path,geodesic:t.mode==='flight',strokeOpacity:0,strokeWeight:2.5,icons:[{icon:{path:'M 0,-1 0,1',strokeOpacity:.8,strokeColor:t.mode==='flight'?'#c68138':t.mode==='unknown'?'#756058':'#a24c38',scale:2.5},offset:'0',repeat:t.mode==='unknown'?'14px':'10px'}]}));
    if(overview)path.forEach(p=>bounds.extend(p));
   }
   const symbols:Record<string,string>={sight:'◆',rest:'♧',food:'◉',hotel:'▰',airport:'✈',station:'▤'};
@@ -53,7 +53,7 @@ export default function TripMap({plan,visits,day,selected,onSelect,overview=fals
    marker.addListener('click',()=>{
     if(group.length===1){callback.current(v);return;}
     const list=document.createElement('div');list.style.cssText='display:grid;gap:8px;max-width:260px';
-    for(const visit of group){const button=document.createElement('button');button.textContent=plan.days.find(d=>d.id===visit.dayId)?.date+' · '+(visit.start||'')+' '+visit.title;button.style.cssText='padding:8px;text-align:left;cursor:pointer;color:#234758;background:#edf4f5;border:0;border-radius:5px';button.onclick=()=>{info.close();callback.current(visit);};list.appendChild(button);}
+    for(const visit of group){const button=document.createElement('button');button.textContent=plan.days.find(d=>d.id===visit.dayId)?.date+' · '+(visit.start||'')+' '+visit.title;button.style.cssText='padding:8px;text-align:left;cursor:pointer;color:#702b38;background:#fbf4e9;border:0;border-radius:5px';button.onclick=()=>{info.close();callback.current(visit);};list.appendChild(button);}
     info.setContent(list);info.open({map:m,anchor:marker});
    });markers.push(marker);
   }
