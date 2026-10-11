@@ -328,3 +328,34 @@
 .china-tour .china-date-strip button.current {background:#702b38;color:#fff4e2}
 .china-tour .china-date-strip button:not(.current):hover {background:#f1e4d4}
 .china-tour .tour-atlas .china-map-places button.selected {border-color:#a44732;background:#f4e2d4}
+
+/* Chinese cloud scrolls and leiwen borders, drawn as light line ornaments. */
+.china-tour > header::after {height:10px;background:url('/images/ornaments/china-meander.svg') repeat-x center bottom / 40px 12px;border:0;opacity:.65}
+.china-tour .tour-welcome {isolation:isolate}
+.china-tour .tour-welcome::before {content:'';position:absolute;right:0;top:10px;width:48%;height:230px;background:url('/images/ornaments/china-clouds.svg') no-repeat right top / contain;opacity:.27;pointer-events:none;z-index:-1}
+.china-tour .tour-welcome-copy::after {content:'山 水';display:inline-block;margin-top:24px;padding:8px 11px;border:3px double #a44732;border-radius:3px;color:#a44732;font:17px/1.2 Georgia,serif;letter-spacing:7px;transform:rotate(-4deg);opacity:.85}
+.china-tour .china-section-heading::before {width:128px;height:17px;border:0;background:url('/images/ornaments/china-meander.svg') repeat-x left center / 54px 17px;margin-bottom:12px;opacity:.85}
+.china-tour .tour-flight-countdown {position:relative;isolation:isolate;overflow:hidden;border:4px double #c5a778;border-radius:5px}
+.china-tour .tour-flight-countdown::before {content:'';position:absolute;inset:0;background:url('/images/ornaments/china-clouds.svg') no-repeat right center / 420px auto;opacity:.22;pointer-events:none;z-index:-1}
+.china-tour .tour-flight-countdown::after {content:'';position:absolute;inset:8px;border:1px solid #c5a77866;pointer-events:none}
+.china-tour .tour-gallery-card,.china-tour .tour-stay,.china-tour .tour-place-card {position:relative}
+.china-tour .tour-gallery-copy::after {width:18px;height:18px;border-width:2px;right:12px;top:13px}
+.china-tour .tour-place-copy {position:relative}
+.china-tour .tour-place-copy::after {content:'';position:absolute;right:12px;bottom:12px;width:12px;height:12px;border-right:1px solid #b28a49;border-bottom:1px solid #b28a49;pointer-events:none}
+.china-tour .tour-stay {border-top:0;border-radius:4px;padding-top:32px;background-image:url('/images/ornaments/china-meander.svg');background-repeat:repeat-x;background-position:left 7px;background-size:48px 15px}
+.china-tour .china-day {border-radius:5px;border-top:3px double #c5a778}
+.china-tour .china-day-number b {outline:1px solid #a4473240;outline-offset:3px;transform:rotate(-3deg);background:#f6e9d8}
+.china-tour .china-city-grid .tour-city-card {border-radius:5px}
+.china-tour .tour-city-copy::after {width:23px;height:23px;border-width:2px}
+.china-tour footer {border-top:3px double #b28a49;background-color:#f1e4d4;background-image:url('/images/ornaments/china-clouds.svg');background-position:right center;background-size:300px auto;background-repeat:no-repeat}
+@media(max-width:650px) {
+ .china-tour .tour-welcome::before {width:65%;height:140px;top:2px;opacity:.18}
+ .china-tour .china-section-heading::before {width:96px;height:14px;background-size:45px 14px}
+ .china-tour .tour-flight-countdown::before {background-size:260px auto;opacity:.14}
+ .china-tour footer {background-size:180px auto}
+ .china-tour .tour-welcome-copy::after {font-size:14px;padding:6px 9px;margin-top:18px}
+}
+@media print {
+ .china-tour .tour-welcome::before,.china-tour .tour-flight-countdown::before,.china-tour .tour-flight-countdown::after {display:none}
+ .china-tour .tour-stay,.china-tour footer {background-image:none}
+}
