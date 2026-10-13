@@ -359,3 +359,38 @@
  .china-tour .tour-welcome::before,.china-tour .tour-flight-countdown::before,.china-tour .tour-flight-countdown::after {display:none}
  .china-tour .tour-stay,.china-tour footer {background-image:none}
 }
+
+/* Source-backed place details, rendered only when material is available. */
+.place-guide {margin-top:22px;border-top:1px solid var(--tour-line);font-size:14px;line-height:1.75}
+.place-guide summary {cursor:pointer;display:flex;justify-content:space-between;gap:15px;padding:16px 0;color:var(--tour-ink);font-weight:600;list-style:none}
+.place-guide summary::-webkit-details-marker {display:none}
+.place-guide summary:focus-visible {outline:2px solid var(--tour-rust);outline-offset:5px}
+.place-guide[open] summary span {transform:rotate(45deg)}
+.place-guide-body {overflow-wrap:anywhere}
+.place-guide-body section {margin:24px 0}
+.china-tour .place-guide h4 {font:22px/1.3 Georgia,serif;color:var(--tour-ink);margin:0 0 12px}
+.place-guide-body ul {padding-left:19px;margin:0}
+.place-guide-body li {margin:12px 0}
+.place-guide-body p {margin:0 0 7px}
+.place-guide-overview {list-style:none;padding-left:0!important}
+.place-guide-citations {display:flex;flex-wrap:wrap;gap:5px 14px;font-size:12px}
+.place-guide a {color:var(--tour-rust);text-decoration:underline;text-underline-offset:3px}
+.place-guide-note,.place-guide-review {background:#f5e8d8;border-left:3px solid #b28a49;padding:14px;margin-bottom:12px}
+.place-guide-label,.place-guide small {font-size:12px;color:#756058}
+.place-guide-photos {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.place-guide-photos figure {margin:0;min-width:0}
+.place-guide-photos img {width:100%;height:180px;object-fit:contain;border-radius:4px}
+.place-guide-photos figcaption {font-size:11px;line-height:1.6;margin-top:6px}
+.place-guide-videos {display:grid;gap:13px}
+.place-guide-videos article {border:1px solid var(--tour-line);padding:14px;border-radius:4px}
+.place-guide-sources {border-top:1px solid var(--tour-line);padding-top:18px}
+@media(max-width:650px){.place-guide-photos{grid-template-columns:1fr}.place-guide-photos img{height:auto;max-height:300px}.place-guide summary{font-size:13px}}
+@media print{.place-guide-body{display:block!important}.place-guide summary span{display:none}}
+
+.place-guide-alert {margin:18px 0;padding:18px;background:#fae5d6;border:1px solid #c78460;border-left:4px solid #a44732;border-radius:4px;line-height:1.75;overflow-wrap:anywhere}
+.place-guide-alert strong {display:block;color:#702b38;font-size:16px;line-height:1.5;margin-bottom:9px}
+.place-guide-alert p {font-size:13px;margin:0 0 10px}
+.place-guide-alert small {display:block;color:#756058;font-size:12px;margin-bottom:8px}
+.place-guide-alert a {color:#8d342a;text-decoration:underline;text-underline-offset:3px}
+
+.place-guide-index{display:flex;flex-wrap:wrap;gap:10px;margin:25px 0 35px}.place-guide-index a{padding:9px 13px;border:1px solid var(--tour-line);border-radius:4px;color:var(--tour-ink);font-size:13px}.place-guide-entry{max-width:980px;margin:35px auto 55px;scroll-margin-top:25px}.place-guide-entry>h2{font:32px/1.3 Georgia,serif;color:var(--tour-ink)}.place-guide-entry>.tour-place-photo img{height:340px}.place-guide-entry>.place-guide{padding:0 20px 10px;background:#fffdf7;border:1px solid var(--tour-line);border-radius:4px}.place-guide-entry .place-guide-note{margin-top:15px}.place-guide-entry .place-guide-alert{margin-bottom:20px}@media(max-width:650px){.place-guide-entry>.tour-place-photo img{height:230px}.place-guide-entry>h2{font-size:26px}.place-guide-entry>.place-guide{padding-left:15px;padding-right:15px}}
