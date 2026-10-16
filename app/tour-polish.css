@@ -308,7 +308,7 @@
 /* Hotels listed in the operator itinerary; dates remain unconfirmed. */
 .tour-stays {margin:24px 0 40px}
 .tour-stays-intro {max-width:800px;font-size:14px;line-height:1.8;color:#756058;margin-bottom:26px}
-.tour-stays-grid {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}
+.tour-stays-grid {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px}
 .tour-stay {display:flex;flex-direction:column;min-width:0;padding:26px;border:1px solid var(--tour-line);border-top:3px solid #b69b67;background:#fffcf5;border-radius:4px 4px 12px 12px}
 .tour-stay-meta {display:flex;align-items:center;justify-content:space-between;gap:12px;color:var(--tour-rust);font-size:11px;letter-spacing:1px}
 .tour-stay-meta b {font:25px Georgia,serif;color:#b69b67}

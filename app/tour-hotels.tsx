@@ -1,9 +1,33 @@
 const googleMaps = (query:string) => `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
+const chengdu = {
+ name:'Holiday Inn Express Chengdu Tianfu Square', city:'Чэнду · 成都',
+ links:[
+  {label:'Сайт IHG',url:'https://www.ihg.com/holidayinnexpress/hotels/ru/ru/chengdu/ctuts/hoteldetail'},
+  {label:'Booking.com',url:'https://www.booking.com/hotel/cn/holiday-inn-express-chengdu-tianfu-square-an-ihg.html'},
+  {label:'Google Maps',url:googleMaps('Holiday Inn Express Chengdu Tianfu Square, 52 Jindun Road, Chengdu, China')}
+ ]
+};
 const hotels = [
- {name:'Chengdu Tianfu Sunshine Hotel',city:'Чэнду · 成都',note:'На Booking.com указан адрес: 2 North Taisheng Road, Чэнду.',links:[{label:'Посмотреть на Booking.com',url:'https://www.booking.com/hotel/cn/tian-fu-sunshine.ru.html'},{label:'Google Maps · Tianfu Sunshine',url:googleMaps('Chengdu Tianfu Sunshine Hotel, 2 North Taisheng Road, Chengdu, China')}]},
- {name:'National Scenic Spot Sunshine Resort Hotel',city:'Чжанцзяцзе · 张家界',note:'На Agoda найдена страница с названием из программы. Точный адрес и соответствие нашему размещению уточняются у организатора.',links:[{label:'Посмотреть на Agoda',url:'https://www.agoda.com/national-scenic-spot-sunshine-resort-hotel-h85334562/hotel/zhangjiajie-cn.html'},{label:'Найти Sunshine Resort в Google Maps',url:googleMaps('National Scenic Spot Sunshine Resort Hotel, Wulingyuan, Zhangjiajie, China')}]},
- {name:'ZhangJiaJie DaysHotel by Wyndham',city:'Чжанцзяцзе · 张家界',note:'В городе несколько Days Hotel by Wyndham. Ниже — возможные варианты, а не подтверждённый отель нашей группы. Нужны полное название и адрес от организатора.',links:[{label:'Hunan Zhangjiajie · сайт Wyndham',url:'https://www.wyndhamhotels.com/days-inn/zhangjiajie-china/days-hotel-hunan-zhangjiajie/overview'},{label:'Wulingyuan · Trip.com',url:'https://us.trip.com/hotels/zhangjiajie-hotel-detail-533575/days-hotel-by-wyndham/'},{label:'Google Maps · вариант Hunan Zhangjiajie',url:googleMaps('Days Hotel by Wyndham Hunan Zhangjiajie, 3 Yongan West Road, Zhangjiajie, China')},{label:'Google Maps · вариант Wulingyuan',url:googleMaps('Days Hotel by Wyndham, 8 Wuling Avenue, Wulingyuan, Zhangjiajie, China')}]}
+ {...chengdu,checkIn:'2026-10-27',checkOut:'2026-10-29',dates:'27–29 октября',nights:'2 ночи'},
+ {name:'Hampton by Hilton Zhangjiajie Seventy Two Wonder Towers',city:'Чжанцзяцзе · 张家界',checkIn:'2026-10-29',checkOut:'2026-10-30',dates:'29–30 октября',nights:'1 ночь',links:[
+  {label:'Сайт Hilton',url:'https://www.hilton.com/en/hotels/dygwshx-hampton-zhangjiajie-seventy-two-wonder-towers/'},
+  {label:'Google Maps',url:googleMaps('Hampton by Hilton Zhangjiajie Seventy Two Wonder Towers, Zhangjiajie, China')}
+ ]},
+ {name:'Zhangjiajie National Forest Park Mercure Hotel',city:'Чжанцзяцзе · 张家界',checkIn:'2026-10-30',checkOut:'2026-11-01',dates:'30 октября — 1 ноября',nights:'2 ночи',links:[
+  {label:'Trip.com',url:'https://www.trip.com/hotels/zhangjiajie-hotel-detail-135989363/zhangjiajie-national-forest-park-mercure-hotel/'},
+  {label:'Google Maps',url:googleMaps('Zhangjiajie National Forest Park Mercure Hotel 张家界国家森林公园美居酒店')}
+ ]},
+ {...chengdu,checkIn:'2026-11-01',checkOut:'2026-11-02',dates:'1–2 ноября',nights:'1 ночь'}
 ];
 export default function TourHotels(){
- return <section className="tour-stays" aria-label="Отели из программы"><div className="china-section-heading"><p className="china-eyebrow">旅居 · ГДЕ ОСТАНОВИМСЯ</p><h2>Отели нашего путешествия</h2></div><p className="tour-stays-intro">В предложении туроператора — отели 4★ и стандартные номера с раздельными кроватями. Распределение по ночам и подтверждения бронирования пока не получены.</p><div className="tour-stays-grid">{hotels.map((hotel,i)=><article className="tour-stay" key={hotel.name}><div className="tour-stay-meta"><span>{hotel.city}</span><b aria-hidden="true">0{i+1}</b></div><h3>{hotel.name}</h3><p className="tour-stay-date">Даты проживания уточняются</p><p>{hotel.note}</p><div className="tour-stay-links">{hotel.links.map(link=><a href={link.url} key={link.url} target="_blank" rel="noopener noreferrer">{link.label} <span aria-hidden="true">↗</span></a>)}</div></article>)}</div></section>;
+ return <section className="tour-stays" aria-label="Отели и даты проживания">
+  <div className="china-section-heading"><p className="china-eyebrow">旅居 · ГДЕ ОСТАНОВИМСЯ</p><h2>Отели нашего путешествия</h2></div>
+  <p className="tour-stays-intro">27 октября — 2 ноября 2026 · 6 ночей. Начинаем и завершаем поездку в одном отеле в Чэнду; в Чжанцзяцзе — две остановки.</p>
+  <div className="tour-stays-grid">{hotels.map((hotel,i)=><article className="tour-stay" key={hotel.checkIn}>
+   <div className="tour-stay-meta"><span>{hotel.city}</span><b aria-hidden="true">0{i+1}</b></div>
+   <h3>{hotel.name}</h3><p className="tour-stay-date">{hotel.dates} 2026 · {hotel.nights}</p>
+   <p>Заезд <time dateTime={hotel.checkIn}>{hotel.checkIn.slice(8)}.{hotel.checkIn.slice(5,7)}</time> · Выезд <time dateTime={hotel.checkOut}>{hotel.checkOut.slice(8)}.{hotel.checkOut.slice(5,7)}</time></p>
+   <div className="tour-stay-links">{hotel.links.map(link=><a href={link.url} key={link.url} target="_blank" rel="noopener noreferrer">{link.label} <span aria-hidden="true">↗</span></a>)}</div>
+  </article>)}</div>
+ </section>;
 }
