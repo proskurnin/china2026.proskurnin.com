@@ -2,7 +2,7 @@ import {readFile,writeFile} from 'node:fs/promises';
 import {pathToFileURL} from 'node:url';
 export function initialState(html){
  const marker=/window\.INITIAL_STATE\s*=\s*/g.exec(html);
- if(!marker)throw Error('Нет структурированного расписания');
+ if(!marker)throw Error('Нет структурированного расписания; страница: '+(html.match(/<title[^>]*>([^<]*)<\/title>/i)?.[1]||'без заголовка').slice(0,120));
  const start=marker.index+marker[0].length;
  let depth=0,quoted=false,escape=false;
  for(let i=start;i<html.length;i++){const c=html[i];if(quoted){if(escape)escape=false;else if(c==='\\')escape=true;else if(c==='"')quoted=false;}else if(c==='"')quoted=true;else if(c==='{')depth++;else if(c==='}'&&--depth===0)return JSON.parse(html.slice(start,i+1));}
