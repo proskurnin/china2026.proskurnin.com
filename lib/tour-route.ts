@@ -13,7 +13,7 @@ function curve(from:Point,to:Point,bend:number):Point[]{
  return Array.from({length:41},(_,i)=>{const t=i/40,u=1-t;return [u*u*from[0]+2*u*t*mid[0]+t*t*to[0],u*u*from[1]+2*u*t*mid[1]+t*t*to[1]];});
 }
 export const transfers=[
- {id:'outbound',day:'departure' as TourDay,mode:'flight',title:'Шереметьево → Чэнду',label:'26 октября · туда',color:'#b67d25',path:curve(routeStops.svo.point,routeStops.chengdu.point,8),note:'Дата и аэропорт вылета подтверждены. Время и аэропорт прибытия уточняются.'},
+ {id:'outbound',day:'departure' as TourDay,mode:'flight',title:'Шереметьево → Чэнду',label:'26 октября · туда',color:'#b67d25',path:curve(routeStops.svo.point,routeStops.chengdu.point,8),note:'26 октября, 21:55 МСК · Шереметьево (SVO), терминал C · Sichuan Airlines 3U 3888 → Чэнду Тяньфу (TFU). Плановый прилёт: 27 октября, 11:00 по Китаю.'},
  {id:'train-out',day:3 as TourDay,mode:'train',title:'Чэнду → Чжанцзяцзе',label:'28 октября · поезд',color:'#a24c38',path:curve(routeStops.chengdu.point,routeStops.zhangjiajie.point,.8),note:'G2451 · 17:13–22:18 по предложению; билеты не подтверждены.'},
  {id:'train-back',day:7 as TourDay,mode:'train',title:'Чжанцзяцзе → Чэнду',label:'1 ноября · поезд',color:'#702b38',path:curve(routeStops.zhangjiajie.point,routeStops.chengdu.point,.8),note:'G2450 · 09:55–14:20 по предложению; билеты не подтверждены.'},
  {id:'return',day:'return' as TourDay,mode:'flight',title:'Чэнду → Шереметьево',label:'2 ноября · домой',color:'#ae4035',path:curve(routeStops.chengdu.point,routeStops.svo.point,8),note:'Возвращение 2 ноября в Шереметьево. Время и аэропорт вылета уточняются.'},
