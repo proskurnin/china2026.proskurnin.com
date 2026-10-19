@@ -1,0 +1,15 @@
+{
+ "flights": {
+  "outbound": {
+   "number": "3U 3888", "date": "2026-10-26",
+   "departure": "2026-10-26T21:55:00+03:00",
+   "scheduledDeparture": "2026-10-26T21:55:00+03:00",
+   "arrival": "2026-10-27T11:00:00+08:00",
+   "status": "scheduled",
+   "checkedAt": "2026-10-19T14:00:00Z",
+   "source": "Flightradar24 / Яндекс Расписания",
+   "sourceUrl": "https://www.flightradar24.com/data/flights/3u3888",
+   "verificationMethod": "web-check"
+  }
+ }
+}

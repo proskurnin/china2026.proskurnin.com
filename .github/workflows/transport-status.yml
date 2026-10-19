@@ -5,7 +5,7 @@ on:
   workflow_dispatch:
   push:
     branches: [main]
-    paths: ['scripts/check-transport-status.mjs', 'lib/transports.json', '.github/workflows/transport-status.yml']
+    paths: ['scripts/check-transport-status.mjs', 'lib/transports.json', 'public/transport-verified.json', '.github/workflows/transport-status.yml']
 permissions:
   contents: read
 concurrency:

@@ -34,6 +34,8 @@ export async function run(){
  let previous={flights:{}};
  try{const r=await fetch('https://china2026.proskurnin.com/transport-status.json',{signal:AbortSignal.timeout(10000)});if(r.ok)previous=await r.json();}catch{}
  const result={checkedAt:new Date().toISOString(),flights:previous.flights||{},errors:{}};
+ const verified=JSON.parse(await readFile('public/transport-verified.json','utf8'));
+ for(const [id,item] of Object.entries(verified.flights||{})){if(!result.flights[id]||Date.parse(item.checkedAt)>Date.parse(result.flights[id].checkedAt))result.flights[id]=item;}
  for(const trip of trips.filter(t=>t.mode==='flight')){
   // Retain the last result after the flight's observation window.
   if(Date.now()>Date.parse(trip.arrival)+86400000)continue;
