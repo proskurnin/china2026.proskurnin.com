@@ -394,3 +394,15 @@
 .place-guide-alert a {color:#8d342a;text-decoration:underline;text-underline-offset:3px}
 
 .place-guide-index{display:flex;flex-wrap:wrap;gap:10px;margin:25px 0 35px}.place-guide-index a{padding:9px 13px;border:1px solid var(--tour-line);border-radius:4px;color:var(--tour-ink);font-size:13px}.place-guide-entry{max-width:980px;margin:35px auto 55px;scroll-margin-top:25px}.place-guide-entry>h2{font:32px/1.3 Georgia,serif;color:var(--tour-ink)}.place-guide-entry>.tour-place-photo img{height:340px}.place-guide-entry>.place-guide{padding:0 20px 10px;background:#fffdf7;border:1px solid var(--tour-line);border-radius:4px}.place-guide-entry .place-guide-note{margin-top:15px}.place-guide-entry .place-guide-alert{margin-bottom:20px}@media(max-width:650px){.place-guide-entry>.tour-place-photo img{height:230px}.place-guide-entry>h2{font-size:26px}.place-guide-entry>.place-guide{padding-left:15px;padding-right:15px}}
+
+/* Practical power guide: photographs remain uncropped for plug identification. */
+.tour-power-guide .tour-power-lead{max-width:780px;font-size:17px;line-height:1.6}
+.tour-power-photos{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px;margin:24px 0}
+.tour-power-photos figure{margin:0;min-width:0;background:#fffdf8;border:1px solid #dec9a7;border-radius:12px;overflow:hidden}
+.tour-power-image{height:245px;background:#fff;padding:20px;border-bottom:1px solid #eadbc6}
+.tour-power-image img{width:100%;height:100%;object-fit:contain;display:block}
+.tour-power-photos figcaption{padding:20px}.tour-power-photos h3{margin:0 0 10px;color:#702b38;font-family:Georgia,serif;font-size:24px}.tour-power-photos p{line-height:1.65}
+.tour-power-photos small{display:block;font-size:10px;line-height:1.6;color:#79604b}.tour-power-photos small a{display:inline;margin:0}
+.tour-power-takeaway{border-left:3px solid #ad4936;padding:16px 22px;background:#f3e6d3}.tour-power-takeaway p{margin-bottom:0;line-height:1.6}
+.tour-power-guide details{margin-top:20px;line-height:1.65}.tour-power-guide summary{cursor:pointer;color:#702b38;font-weight:600}.tour-power-guide details a{display:inline;margin:0}
+@media(max-width:640px){.tour-power-photos{grid-template-columns:1fr;gap:18px}.tour-power-image{height:220px}.tour-power-photos figcaption{padding:16px}}
