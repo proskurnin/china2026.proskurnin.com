@@ -1,13 +1,23 @@
 'use client';
 import {useEffect,useState} from 'react';
-import {Plane} from 'lucide-react';
-const departureAt=Date.parse('2026-10-26T21:55:00+03:00');
+import {Plane,TrainFront,BookOpen} from 'lucide-react';
+import trips from '@/lib/transports.json';
+import {nextTransport} from '@/lib/transport-state.mjs';
+const format=(date:string,zone:string)=>new Intl.DateTimeFormat('ru-RU',{timeZone:zone,day:'numeric',month:'long',hour:'2-digit',minute:'2-digit'}).format(new Date(date));
 export default function TourCountdown(){
- const [remaining,setRemaining]=useState<number|null>(null);
- useEffect(()=>{
-  const update=()=>setRemaining(Math.max(0,Math.ceil((departureAt-Date.now())/60000)));
-  update();const timer=setInterval(update,1000);return()=>clearInterval(timer);
- },[]);
- const values=remaining===null?[null,null,null]:[Math.floor(remaining/1440),Math.floor(remaining%1440/60),remaining%60];
- return <section className="flight-countdown tour-flight-countdown" aria-label="Обратный отсчёт до вылета"><div className="flight-countdown-copy"><small><Plane size={16}/>{remaining===0?'ВРЕМЯ ВЫЛЕТА ПО РАСПИСАНИЮ НАСТУПИЛО':'ДО НАШЕГО ВЫЛЕТА'}</small><h2>Шереметьево → Чэнду</h2><p>26 октября 2026 · 21:55 МСК · терминал C</p><p>Sichuan Airlines · 3U 3888 · SVO → TFU (Тяньфу)</p></div><div className="countdown-digits">{values.map((value,index)=><div key={index}><b>{value===null?'—':String(value).padStart(2,'0')}</b><span>{['дней','часов','минут'][index]}</span></div>)}</div><div className="flight-status"><p>Отсчёт до 21:55 по Москве (UTC+3). Плановый прилёт: 27 октября, 11:00 по Чэнду (UTC+8). Статус рейса не обновляется автоматически.</p><a href="https://rasp.yandex.ru/plane/sheremetyevo-airport--chengdu" target="_blank" rel="noopener noreferrer">Расписание рейса ↗</a><a href="https://www.svo.aero/ru/timetable/departure" target="_blank" rel="noopener noreferrer">Табло Шереметьево ↗</a></div></section>;
+ const [now,setNow]=useState<number|null>(null),[snapshot,setSnapshot]=useState<any>(null),[error,setError]=useState(false);
+ useEffect(()=>{const tick=()=>setNow(Date.now());tick();const timer=setInterval(tick,1000);document.addEventListener('visibilitychange',tick);return()=>{clearInterval(timer);document.removeEventListener('visibilitychange',tick);};},[]);
+ useEffect(()=>{let active=true;const controller=new AbortController();const refresh=async()=>{try{const r=await fetch('/transport-status.json',{cache:'no-store',signal:controller.signal});if(!r.ok)throw Error();const data:any=await r.json();if(!data||typeof data.flights!=='object')throw Error();if(active){setSnapshot(data);setError(false);}}catch{if(active)setError(true);}};refresh();const interval=setInterval(refresh,60000);window.addEventListener('focus',refresh);return()=>{active=false;controller.abort();clearInterval(interval);window.removeEventListener('focus',refresh);};},[]);
+ if(now===null)return <section className="flight-countdown tour-flight-countdown"><p>Определяем ближайший переезд…</p></section>;
+ const state=nextTransport(trips,snapshot,now),trip=state.trip;
+ if(state.kind==='finished')return <section className="flight-countdown tour-flight-countdown"><div className="flight-countdown-copy"><small><BookOpen size={16}/>КИТАЙ · 2026</small><h2>Теперь — время наших историй.</h2><p>Фотографии, видео и воспоминания о нашем путешествии.</p></div><div className="flight-status"><span>{trip?.status==='arrived'?'Последний рейс прибыл по данным источника.':'Все переезды по плану позади. Фактическое завершение последнего рейса онлайн не подтверждено.'}</span></div></section>;
+ const seconds=Math.max(0,Math.floor((Date.parse(trip.departure)-now)/1000));
+ const parts=[Math.floor(seconds/86400),Math.floor(seconds/3600)%24,Math.floor(seconds/60)%60,seconds%60];
+ const flight=trip.mode==='flight',Icon=flight?Plane:TrainFront;
+ const original=trips.find(t=>t.id===trip.id)!;
+ return <section className="flight-countdown tour-flight-countdown" aria-label="Ближайший переезд"><div className="flight-countdown-copy"><small><Icon size={16}/>{state.kind==='travelling'?'ДОРОГА ДОМОЙ':flight?'СЛЕДУЮЩИЙ РЕЙС':'СЛЕДУЮЩИЙ ПОЕЗД'} · {trip.number}</small><h2>{trip.from} → {trip.to}</h2><p>{flight?'Вылет':'Отправление'}: {format(trip.departure,trip.zone)} · {trip.zone==='Europe/Moscow'?'МСК (UTC+3)':'Китай (UTC+8)'}{trip.terminal?' · терминал '+trip.terminal:''}</p>{trip.note&&<p>{trip.note}</p>}{!trip.confirmed&&<p>Предварительное расписание · сверить с билетом</p>}</div>
+ {state.kind==='countdown'?<div className="countdown-digits" role="timer" aria-label={flight?'До вылета':'До отправления поезда'}>{parts.map((n,i)=><div key={i}><b>{String(n).padStart(2,'0')}</b><span>{['дней','часов','минут','секунд'][i]}</span></div>)}</div>:<p>{state.kind==='cancelled'?'Рейс отменён. Ожидаем новый план; автоматическое переключение остановлено.':state.kind==='waiting'?'Рейс задержан. Ожидаем новое время или подтверждение вылета.':'По расписанию мы в пути. Прибытие: '+format(trip.arrival,trip.arrivalZone)+' · время пункта назначения.'}</p>}
+ <div className="flight-status">{trip.changed&&<p className="flight-moved">Время изменилось: {format(original.departure,trip.zone)} → {format(trip.departure,trip.zone)}. Таймер пересчитан по данным «Яндекс Расписаний»{trip.status==='delayed'?' — рейс задержан':'. Источник обновил расписание; причина переноса не указана'}.</p>}
+ {flight?<><p>{trip.live?'Последняя успешная проверка: '+format(trip.live.checkedAt,'Europe/Moscow')+' МСК.':'Онлайн-расписание ещё не получено; отсчёт по плану.'}</p>{(error||!trip.fresh||snapshot?.errors?.[trip.id])&&<p>Свежий статус недоступен. Используем последнее известное время; это не подтверждение отсутствия задержки.</p>}<span>Интернет-проверка примерно каждые 10 минут; обновление на странице — раз в минуту. Проверяйте табло перед посадкой.</span><a href={trip.sourceUrl} target="_blank" rel="noopener noreferrer">Открыть источник ↗</a></>:<p>Для поездов — отсчёт по программе, без онлайн-данных о задержках. Время местное, китайское.</p>}
+ <span>После отправления — следующий переезд. Если онлайн-статус отсутствует, переключение происходит по последнему известному расписанию.</span></div></section>;
 }

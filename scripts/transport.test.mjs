@@ -1,0 +1,16 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+import {nextTransport} from '../lib/transport-state.mjs';
+import {parseFlight} from './check-transport-status.mjs';
+const trips=JSON.parse(readFileSync(new URL('../lib/transports.json',import.meta.url)));
+const now=Date.parse('2026-10-26T19:00:00Z');
+const checkedAt='2026-10-26T18:59:00Z';
+const page=s=>'window.INITIAL_STATE = '+JSON.stringify({search:{segments:s}})+';\n';
+const segment={number:'3U 3888',startDate:'2026-10-26',departureLocalDt:'2026-10-26T21:55:00',arrivalLocalDt:'2026-10-27T11:00:00'};
+test('dated source parses local zones and ignores another flight date',()=>{const parsed=parseFlight(page([{...segment,startDate:'2026-10-25'},segment]),trips[0],checkedAt);assert.equal(parsed.departure,'2026-10-26T21:55:00+03:00');assert.equal(parsed.arrival,'2026-10-27T11:00:00+08:00');assert.throws(()=>parseFlight(page([{...segment,startDate:'2026-10-25'}]),trips[0]));});
+test('delay across midnight keeps flight instead of switching to train',()=>{const live=parseFlight(page([{...segment,departureEvent:{status:'delayed',dateTime:'2026-10-27T01:00:00+03:00'}}]),trips[0],checkedAt);const result=nextTransport(trips,{flights:{outbound:live}},now);assert.equal(result.trip.id,'outbound');assert.equal(result.kind,'countdown');assert.equal(result.trip.changed,true);});
+test('passed estimated delay waits; cancellation blocks; departure advances',()=>{for(const [status,kind] of [['delayed','waiting'],['cancelled','cancelled']]){const data={number:trips[0].number,date:'2026-10-26',checkedAt,status,departure:trips[0].departure};assert.equal(nextTransport(trips,{flights:{outbound:data}},now).kind,kind);}assert.equal(nextTransport(trips,null,now).trip.id,'train-out');});
+test('wrong date snapshot is ignored',()=>{assert.equal(nextTransport(trips,{flights:{outbound:{number:trips[0].number,date:'2026-10-25',checkedAt,status:'cancelled'}}},now).trip.id,'train-out');});
+test('sequence and final arrival boundary',()=>{assert.equal(nextTransport(trips,null,Date.parse('2026-10-29T00:00:00Z')).trip.id,'train-back');assert.equal(nextTransport(trips,null,Date.parse('2026-11-01T07:00:00Z')).trip.id,'return');assert.equal(nextTransport(trips,null,Date.parse('2026-11-02T12:00:00Z')).kind,'travelling');assert.equal(nextTransport(trips,null,Date.parse('2026-11-02T17:20:00Z')).kind,'finished');});
+test('malformed source never becomes successful status',()=>{assert.throws(()=>parseFlight('<html>Captcha</html>',trips[0]));assert.throws(()=>parseFlight(page([{...segment,departureLocalDt:'21:55'}]),trips[0]));});

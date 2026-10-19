@@ -17,6 +17,9 @@ tar -xzf "$archive" -C "$release"
 test -s "$release/index.html"
 test "$(cat "$release/release.txt")" = "$revision"
 previous=$(readlink -f "$site_root/current" || true)
+if [ -n "$previous" ] && [ -s "$previous/transport-status.json" ]; then
+  cp "$previous/transport-status.json" "$release/transport-status.json"
+fi
 ln -s "$release" "$site_root/current-next"
 mv -Tf "$site_root/current-next" "$site_root/current"
 if ! actual=$(curl --fail --silent --show-error --max-time 15 \

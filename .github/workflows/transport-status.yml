@@ -1,0 +1,61 @@
+name: Refresh China transport status
+on:
+  schedule:
+    - cron: '7,17,27,37,47,57 * * * *'
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ['scripts/check-transport-status.mjs', 'lib/transports.json', '.github/workflows/transport-status.yml']
+permissions:
+  contents: read
+concurrency:
+  group: china2026-transport-status
+  cancel-in-progress: false
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22.22.2'
+      - name: Check active monitoring period
+        id: period
+        run: |
+          node -e 'const fs=require("fs"); const active=Date.now()<Date.parse("2026-11-04T00:00:00Z"); fs.appendFileSync(process.env.GITHUB_OUTPUT,"active="+active+"\n")'
+      - name: Verify parser and timer logic
+        if: steps.period.outputs.active == 'true'
+        run: node --test scripts/transport.test.mjs
+      - name: Fetch dated flight schedules
+        if: steps.period.outputs.active == 'true'
+        run: node scripts/check-transport-status.mjs
+      - name: Publish status snapshot
+        if: steps.period.outputs.active == 'true'
+        env:
+          DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+          DEPLOY_KNOWN_HOSTS: ${{ secrets.DEPLOY_KNOWN_HOSTS }}
+          DEPLOY_HOST: ${{ vars.DEPLOY_HOST || '80.87.199.223' }}
+          DEPLOY_USER: ${{ vars.DEPLOY_USER || 'china2026-deploy' }}
+          DEPLOY_PORT: ${{ vars.DEPLOY_PORT || '22' }}
+        run: |
+          install -d -m 700 ~/.ssh
+          printf '%s\n' "$DEPLOY_SSH_KEY" > ~/.ssh/id_ed25519
+          printf '%s\n' "$DEPLOY_KNOWN_HOSTS" > ~/.ssh/known_hosts
+          chmod 600 ~/.ssh/id_ed25519 ~/.ssh/known_hosts
+          scp -P "$DEPLOY_PORT" -o ConnectTimeout=20 -o BatchMode=yes -o StrictHostKeyChecking=yes transport-status.json "$DEPLOY_USER@$DEPLOY_HOST:/tmp/china-status-$GITHUB_RUN_ID.json"
+          ssh -p "$DEPLOY_PORT" -o ConnectTimeout=20 -o BatchMode=yes -o StrictHostKeyChecking=yes "$DEPLOY_USER@$DEPLOY_HOST" "bash -s -- $GITHUB_RUN_ID" <<'REMOTE'
+          set -euo pipefail
+          run_id=$1
+          [[ "$run_id" =~ ^[0-9]+$ ]]
+          root=/var/www/china2026.proskurnin.com
+          exec 9> "$root/deploy.lock"
+          flock -w 120 9
+          cp "/tmp/china-status-$run_id.json" "$root/current/transport-status.json.next"
+          chmod 644 "$root/current/transport-status.json.next"
+          mv -f "$root/current/transport-status.json.next" "$root/current/transport-status.json"
+          rm -f "/tmp/china-status-$run_id.json"
+          REMOTE
+      - name: Clean runner credentials
+        if: always()
+        run: rm -f ~/.ssh/id_ed25519 ~/.ssh/known_hosts
