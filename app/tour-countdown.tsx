@@ -1,14 +1,13 @@
 'use client';
 import {useEffect,useState} from 'react';
 import {Plane} from 'lucide-react';
-const departureDate='2026-10-26';
+const departureAt=Date.parse('2026-10-26T21:55:00+03:00');
 export default function TourCountdown(){
- const [days,setDays]=useState<number|null>(null);
+ const [remaining,setRemaining]=useState<number|null>(null);
  useEffect(()=>{
-  const update=()=>{const today=new Intl.DateTimeFormat('en-CA',{timeZone:'Europe/Moscow',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());setDays(Math.round((Date.parse(departureDate+'T00:00:00Z')-Date.parse(today+'T00:00:00Z'))/86400000));};
-  update();const timer=setInterval(update,60000);return()=>clearInterval(timer);
+  const update=()=>setRemaining(Math.max(0,Math.ceil((departureAt-Date.now())/60000)));
+  update();const timer=setInterval(update,1000);return()=>clearInterval(timer);
  },[]);
- if(days!==null&&days<0)return null;
- const noun=days!==null&&days%10===1&&days%100!==11?'день':days!==null&&days%10>=2&&days%10<=4&&(days%100<12||days%100>14)?'дня':'дней';
- return <section className="flight-countdown tour-flight-countdown" aria-label="Обратный отсчёт до вылета"><div className="flight-countdown-copy"><small><Plane size={16}/>ДО НАШЕГО ВЫЛЕТА</small><h2>Шереметьево → Чэнду</h2><p>26 октября 2026 · начало путешествия</p></div><div className="countdown-digits"><div><b>{days===null?'—':days===0?'Сегодня':days}</b><span>{days===0?'день вылета':noun}</span></div></div><div className="flight-status"><p>Отсчёт до даты вылета по московскому времени. Часы и минуты появятся после подтверждения времени рейса.</p></div></section>;
+ const values=remaining===null?[null,null,null]:[Math.floor(remaining/1440),Math.floor(remaining%1440/60),remaining%60];
+ return <section className="flight-countdown tour-flight-countdown" aria-label="Обратный отсчёт до вылета"><div className="flight-countdown-copy"><small><Plane size={16}/>{remaining===0?'ВРЕМЯ ВЫЛЕТА ПО РАСПИСАНИЮ НАСТУПИЛО':'ДО НАШЕГО ВЫЛЕТА'}</small><h2>Шереметьево → Чэнду</h2><p>26 октября 2026 · 21:55 МСК · терминал C</p><p>Sichuan Airlines · 3U 3888 · SVO → TFU (Тяньфу)</p></div><div className="countdown-digits">{values.map((value,index)=><div key={index}><b>{value===null?'—':String(value).padStart(2,'0')}</b><span>{['дней','часов','минут'][index]}</span></div>)}</div><div className="flight-status"><p>Отсчёт до 21:55 по Москве (UTC+3). Плановый прилёт: 27 октября, 11:00 по Чэнду (UTC+8). Статус рейса не обновляется автоматически.</p><a href="https://rasp.yandex.ru/plane/sheremetyevo-airport--chengdu" target="_blank" rel="noopener noreferrer">Расписание рейса ↗</a><a href="https://www.svo.aero/ru/timetable/departure" target="_blank" rel="noopener noreferrer">Табло Шереметьево ↗</a></div></section>;
 }
