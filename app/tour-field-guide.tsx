@@ -3,6 +3,7 @@ import {QrCode,ScanLine,Smartphone,Wallet,MapPin,TrainFront,Ticket,Backpack,Lang
 import {PlacePhoto} from './tour-day-places';
 import places from '@/data/tour-places.json';
 import './tour-field-guide.css';
+import {PowerbankNotice} from './tour-packing';
 
 export default function FieldGuide({onSection}:{onSection:(section:string)=>void}){
  return <div className="field-guide">
@@ -32,7 +33,7 @@ export default function FieldGuide({onSection}:{onSection:(section:string)=>void
    ['05','Вода','Бутылка питьевой воды на прогулку.'],
    ['06','По погоде','Лёгкий слой одежды и защита от дождя для гор.']
   ].map(([n,title,body])=><article key={n}><span>{n}</span><h3>{title}</h3><p>{body}</p></article>)}</div>
-  <div className="field-note"><Backpack/><div><h3>Пауэрбанк: сверяем правило с нашим рейсом</h3><p>Уведомление CAAC от июня 2025 года о маркировке CCC относится к внутренним рейсам Китая. Его нельзя автоматически переносить на все международные перелёты. Для рейсов Sichuan Airlines проверьте действующие ограничения перевозчика на ёмкость, количество и использование аккумуляторов.</p><button onClick={()=>onSection('packing')}>Открыть полный список вещей <ArrowRight size={16}/></button></div></div></section>
+  <div className="field-note"><Backpack/><div><PowerbankNotice/><button onClick={()=>onSection('packing')}>Открыть полный список вещей <ArrowRight size={16}/></button></div></div></section>
   <footer className="field-sources"><p>Подготовлено по материалу «Не лети в Китай, пока не посмотришь это видео | Гайд 2026» канала «Вот Тебе И». Личные случаи авторов не представлены как общие правила. Фотографии — места нашего маршрута, авторы и лицензии указаны под снимками.</p><p>Проверка источников: 20 октября 2026. Интерфейсы, тарифы и условия могут меняться.</p><div><a href="https://english.www.gov.cn/2025special/bizexpatsinchina2025" target="_blank" rel="noreferrer">Официальный справочник: оплата и транспорт ↗</a><a href="https://www.12306.cn/en/index.html" target="_blank" rel="noreferrer">China Railway 12306 ↗</a><a href="https://www.caac.gov.cn/English/News/202507/t20250709_227894.html" target="_blank" rel="noreferrer">CAAC: правило CCC ↗</a><a href="https://www.sichuanair.com/affiche/7.html" target="_blank" rel="noreferrer">Sichuan Airlines: багаж ↗</a></div></footer>
  </div>;
 }
