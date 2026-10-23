@@ -4,7 +4,7 @@ import {CloudOff} from 'lucide-react';
 import {weatherCondition} from './day-weather';
 import {loadCityWeather,weatherKey,type WeatherTarget,type WeatherResult} from '@/lib/weather';
 import type {TourDay} from '@/lib/tour-route';
-const cities={svo:{name:'Шереметьево',latitude:55.9726,longitude:37.4146,timezone:'Europe/Moscow'},chengdu:{name:'Чэнду',latitude:30.66,longitude:104.06,timezone:'Asia/Shanghai'},zhangjiajie:{name:'Чжанцзяцзе',latitude:29.12,longitude:110.48,timezone:'Asia/Shanghai'}};
+const cities={svo:{name:'Шереметьево',latitude:55.9726,longitude:37.4146,timezone:'Europe/Moscow'},chengdu:{name:'Чэнду (Chengdu, 成都)',latitude:30.66,longitude:104.06,timezone:'Asia/Shanghai'},zhangjiajie:{name:'Чжанцзяцзе (Zhangjiajie, 张家界)',latitude:29.12,longitude:110.48,timezone:'Asia/Shanghai'}};
 const stops:Array<Array<keyof typeof cities>>=[['svo','chengdu'],['chengdu'],['chengdu','zhangjiajie'],['zhangjiajie'],['zhangjiajie'],['zhangjiajie'],['zhangjiajie','chengdu'],['chengdu','svo']];
 export const calendarDays=stops.map((stops,i)=>({day:i+1,date:new Date(Date.UTC(2026,9,26+i)).toISOString().slice(0,10),stops}));
 const targets:WeatherTarget[]=calendarDays.flatMap(d=>d.stops.map(city=>({key:weatherKey(city,d.date),city,date:d.date,...cities[city]})));

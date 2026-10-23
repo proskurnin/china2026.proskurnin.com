@@ -7,7 +7,7 @@ import {PowerbankNotice} from './tour-packing';
 
 export default function FieldGuide({onSection}:{onSection:(section:string)=>void}){
  return <div className="field-guide">
-  <div className="field-hero"><div><p className="china-eyebrow">中国 · ПАМЯТКА НА КАЖДЫЙ ДЕНЬ</p><h1>В Китае — как дома</h1><p className="field-lead">Как заплатить за обед, найти машину и спокойно сесть в поезд. Практические шаги для нашей поездки в Чэнду и Чжанцзяцзе.</p><div className="field-tags"><span>Оплата</span><span>Транспорт</span><span>Маленькие удобства</span></div></div><PlacePhoto place={places.find(p=>p.id==='alleys')!}/></div>
+  <div className="field-hero"><div><p className="china-eyebrow">中国 · ПАМЯТКА НА КАЖДЫЙ ДЕНЬ</p><h1>В Китае — как дома</h1><p className="field-lead">Как заплатить за обед, найти машину и спокойно сесть в поезд. Практические шаги для нашей поездки в Чэнду (Chengdu, 成都) и Чжанцзяцзе (Zhangjiajie, 张家界).</p><div className="field-tags"><span>Оплата</span><span>Транспорт</span><span>Маленькие удобства</span></div></div><PlacePhoto place={places.find(p=>p.id==='alleys')!}/></div>
   <nav className="field-nav" aria-label="Разделы памятки"><a href="#field-pay">01 · Оплата</a><a href="#field-city">02 · В городе</a><a href="#field-train">03 · Поезд</a><a href="#field-bag">04 · С собой</a></nav>
   <section id="field-pay"><p className="china-eyebrow">01 / ДЕНЬГИ</p><h2>Два способа заплатить по QR</h2><p>В Alipay и WeChat Pay можно сканировать код продавца или показать свой платёжный код кассиру. Это разные действия — уточните, какое требуется на кассе.</p>
    <div className="field-pay-grid">

@@ -406,3 +406,11 @@
 .tour-power-takeaway{border-left:3px solid #ad4936;padding:16px 22px;background:#f3e6d3}.tour-power-takeaway p{margin-bottom:0;line-height:1.6}
 .tour-power-guide details{margin-top:20px;line-height:1.65}.tour-power-guide summary{cursor:pointer;color:#702b38;font-weight:600}.tour-power-guide details a{display:inline;margin:0}
 @media(max-width:640px){.tour-power-photos{grid-template-columns:1fr;gap:18px}.tour-power-image{height:220px}.tour-power-photos figcaption{padding:16px}}
+
+/* Full Russian, Latin and Chinese place names must remain readable. */
+.china-tour .china-date-strip .tour-calendar-city{white-space:normal;overflow:visible;text-overflow:clip;overflow-wrap:anywhere}
+.china-tour .tour-calendar-section .china-date-strip{grid-template-columns:minmax(139px,1.3fr) repeat(8,minmax(130px,1fr))}
+.china-tour > header .family-label{white-space:normal;max-width:560px;text-align:center;line-height:1.5}
+.china-tour .tour-stop-label,.china-tour .tour-transfer-label{white-space:normal;max-width:260px;line-height:1.4;overflow-wrap:anywhere}
+.china-tour .tour-map-switch>span,.china-tour .tour-stay h3,.china-tour .tour-gallery-copy h3,.china-tour .tour-atlas-stages b{overflow-wrap:anywhere}
+.china-tour .tour-stay h3{font-size:clamp(18px,2vw,24px);line-height:1.4}
