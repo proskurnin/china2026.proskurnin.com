@@ -4,13 +4,15 @@ import {useEffect,useRef,useState} from 'react';
 import type {Trip} from '@/lib/trip';
 import {setOptions,importLibrary} from '@googlemaps/js-api-loader';
 import {MarkerClusterer} from '@googlemaps/markerclusterer';
-let loading:Promise<void>|undefined;
+let loading:Promise<void>|undefined,mapId='DEMO_MAP_ID';
 function loadMaps(){
  return loading??=(async()=>{
   const response=await fetch('/maps-config.json');
   if(!response.ok)throw new Error('Map configuration unavailable');
-  const {key}=await response.json() as {key?:string};
+  const config=await response.json() as {key?:string;mapId?:string};
+  const key=config.key;
   if(typeof key!=='string'||!key)throw new Error('Map key missing');
+  if(config.mapId)mapId=config.mapId;
   setOptions({key,v:'weekly',language:'ru'});
   await Promise.all([importLibrary('maps'),importLibrary('marker')]);
  })();
@@ -25,7 +27,7 @@ export default function TripMap({plan,visits,day,selected,onSelect,overview=fals
   (window as any).gm_authFailure=authError;
   loadMaps().then(()=>{
    if(!live||!node.current)return;
-   map.current=new google.maps.Map(node.current,{center:{lat:47,lng:19},zoom:4,mapId:'DEMO_MAP_ID',gestureHandling:'cooperative',mapTypeControl:false,streetViewControl:false,fullscreenControl:true,zoomControl:true});
+   map.current=new google.maps.Map(node.current,{center:{lat:47,lng:19},zoom:4,mapId,gestureHandling:'cooperative',mapTypeControl:false,streetViewControl:false,fullscreenControl:true,zoomControl:true});
    setReady(true);
   }).catch(authError);
   return()=>{live=false;if(map.current)google.maps.event.clearInstanceListeners(map.current);map.current=null;if((window as any).gm_authFailure===authError)delete (window as any).gm_authFailure;};

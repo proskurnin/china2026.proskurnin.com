@@ -8,3 +8,7 @@ dist/
 !.env.example
 public/maps-config.json
 .DS_Store
+
+# Fetched by npm run assets (third-party photos)
+/public/images/power/china-socket.jpg
+/public/images/power/china-adapter.jpg
