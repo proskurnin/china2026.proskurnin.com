@@ -12,11 +12,11 @@
 .china-tour :is(button,a):focus-visible {outline:2px solid var(--tour-rust);outline-offset:4px}
 .china-tour .china-date-strip button:focus-visible {outline-offset:-4px}
 .china-tour .primary {border-radius:7px;box-shadow:0 5px 14px #702b3812}
-.china-tour .china-eyebrow {color:var(--tour-rust);line-height:1.65}
+.china-tour .china-eyebrow,.china-tour .trip-eyebrow{color:var(--tour-rust);line-height:1.65}
 .tour-welcome {position:relative;gap:5vw;padding-top:48px;padding-bottom:48px}
 .tour-welcome-copy {min-width:0}
-.tour-welcome-copy > .china-eyebrow {display:flex;align-items:center;gap:14px}
-.tour-welcome-copy > .china-eyebrow::before {content:'';height:1px;width:30px;background:var(--tour-rust);flex:none}
+.tour-welcome-copy > .china-eyebrow,.tour-welcome-copy > .trip-eyebrow{display:flex;align-items:center;gap:14px}
+.tour-welcome-copy > .china-eyebrow::before,.tour-welcome-copy > .trip-eyebrow::before{content:'';height:1px;width:30px;background:var(--tour-rust);flex:none}
 .tour-welcome h1 {font-size:clamp(48px,5.5vw,80px);letter-spacing:-2.5px;line-height:1.08;color:var(--tour-ink);text-wrap:balance}
 .tour-welcome h1 em {color:var(--tour-rust)}
 .tour-welcome-lead {line-height:1.9;color:#756058}
@@ -33,7 +33,7 @@
 .china-tour .tour-calendar-section .china-date-strip {box-shadow:0 4px 14px #49312f06}
 .china-tour .china-date-strip button:not(.current):hover {background:#f1e4d4}
 .china-tour .china-map-aside {background:#fffcf5;border-color:var(--tour-line);box-shadow:0 8px 25px #702b3806}
-.china-tour .china-map-canvas {border-color:var(--tour-line)}
+.china-tour .china-map-canvas,.china-tour .trip-map-canvas{border-color:var(--tour-line)}
 .china-tour .tour-map-switch {background:#fffcf5;border-color:var(--tour-line)}
 .china-tour .china-section-heading {display:flex;flex-direction:column;gap:4px;margin-bottom:28px}
 .china-tour .china-section-heading h2 {font-size:clamp(30px,3.5vw,44px);letter-spacing:-.8px;text-wrap:balance}
@@ -69,7 +69,7 @@
 .china-tour .tour-place-copy h3 {font-size:27px;color:var(--tour-ink);letter-spacing:-.4px}
 .china-tour .tour-place-copy p {line-height:1.8}
 .china-tour .tour-place-actions {border-top:1px solid #eae6da;padding-top:10px;color:var(--tour-rust)}
-.china-tour .china-info-grid article,.china-tour .china-price-grid article,.china-tour .china-questions article {border-radius:12px}
+.china-tour .china-info-grid article,.china-tour .china-price-grid article,.china-tour .china-questions article,.china-tour .trip-info-grid article{border-radius:12px}
 .china-tour footer {border-top:1px solid var(--tour-line);background:#eeeee3;color:#756058;margin-top:20px}
 @media(hover:hover) and (prefers-reduced-motion:no-preference) {
   .tour-place-photo img {transition:transform .6s ease}
@@ -93,8 +93,8 @@
   .china-tour .account-menu-link {padding:9px 14px;font-size:13px}
   .tour-welcome {padding:32px 6vw 26px;gap:34px}
   .tour-welcome h1 {font-size:clamp(43px,10.8vw,57px);letter-spacing:-1.8px}
-  .tour-welcome-copy > .china-eyebrow {font-size:9px;letter-spacing:1.6px;gap:10px}
-  .tour-welcome-copy > .china-eyebrow::before {width:18px}
+  .tour-welcome-copy > .china-eyebrow,.tour-welcome-copy > .trip-eyebrow{font-size:9px;letter-spacing:1.6px;gap:10px}
+  .tour-welcome-copy > .china-eyebrow::before,.tour-welcome-copy > .trip-eyebrow::before{width:18px}
   .tour-welcome-stats > div {padding:0 16px}
   .tour-welcome-stats span {font-size:10px}
   .tour-welcome-main {border-radius:95px 95px 12px 12px;outline-offset:5px}
@@ -124,9 +124,9 @@
 .tour-atlas .tour-map-switch i {font-style:normal;color:#a57c45;padding:0 8px}
 .tour-atlas .tour-map-switch button {font-size:12px;border-radius:30px;padding:8px 14px}
 .tour-atlas .china-map-layout {display:block}
-.tour-atlas .china-map-canvas {height:480px;border-radius:0 0 14px 14px;box-shadow:0 12px 28px #702b3810}
+.tour-atlas .china-map-canvas,.tour-atlas .trip-map-canvas{height:480px;border-radius:0 0 14px 14px;box-shadow:0 12px 28px #702b3810}
 .tour-atlas .china-map-key {gap:12px 24px;font-size:11px;padding-top:18px}
-.tour-atlas .china-map-note {max-width:950px;font-size:11px;line-height:1.7}
+.tour-atlas .china-map-note,.tour-atlas .trip-map-note{max-width:950px;font-size:11px;line-height:1.7}
 .tour-atlas-stages {display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;margin:26px 0;background:#fffcf5;border:1px solid var(--tour-line);border-radius:12px;overflow:hidden}
 .tour-atlas-stages > button {position:relative;display:flex;align-items:flex-start;flex-direction:column;text-align:left;gap:10px;padding:23px 22px;border-right:1px solid var(--tour-line);min-width:0}
 .tour-atlas-stages > button:last-child {border-right:0}
@@ -164,12 +164,12 @@
  .tour-atlas-stages {grid-template-columns:repeat(2,minmax(0,1fr))}
  .tour-atlas-stages > button:nth-child(2) {border-right:0}
  .tour-atlas-stages > button:nth-child(-n+2) {border-bottom:1px solid var(--tour-line)}
- .tour-atlas .china-map-canvas {height:420px}
+ .tour-atlas .china-map-canvas,.tour-atlas .trip-map-canvas{height:420px}
 }
 @media(max-width:650px) {
  .tour-welcome-photos::before {right:0;width:140px;height:140px;top:-12px}
  .tour-welcome-copy::after {margin-top:18px;font-size:14px}
- .tour-atlas .china-map-canvas {height:360px}
+ .tour-atlas .china-map-canvas,.tour-atlas .trip-map-canvas{height:360px}
  .tour-atlas .tour-map-switch {padding:13px 12px}
  .tour-atlas .tour-map-switch > span {font-size:10px;line-height:1.8}
  .tour-atlas .tour-map-switch i {padding:0 3px}
@@ -235,8 +235,9 @@
 @media(max-width:360px) {.tour-gallery-grid {grid-template-columns:1fr}.tour-gallery-wide {grid-column:auto}.tour-gallery-copy h3 {min-height:0}}
 
 /* The packing payload is served only by the authenticated participant API. */
-.tour-packing .china-info-grid{align-items:start}
-.tour-packing .china-info-grid li{align-items:flex-start;line-height:1.65}
+.tour-packing .china-info-grid,/* The packing payload is served only by the authenticated participant API. */
+.tour-packing .trip-info-grid{align-items:start}
+.tour-packing .china-info-grid li,.tour-packing .trip-info-grid li{align-items:flex-start;line-height:1.65}
 .tour-packing-power{margin:28px 0 44px;padding:clamp(20px,4vw,36px);border:1px solid #cda65c;border-radius:18px;background:#fbf5e7}
 .tour-packing-power h2{margin-top:0}
 .tour-packing-power li{margin:10px 0;line-height:1.65}
@@ -419,7 +420,7 @@
 .tour-preparation .prep-bar{flex:1 1 200px;height:8px;border-radius:4px;background:var(--tour-line);overflow:hidden}
 .tour-preparation .prep-bar>span{display:block;height:100%;background:var(--tour-rust);transition:width .2s}
 .tour-preparation .prep-progress small{color:#756058}
-.tour-preparation .china-info-grid{align-items:start}
+.tour-preparation .china-info-grid,.tour-preparation .trip-info-grid{align-items:start}
 .tour-preparation .prep-list{list-style:none;padding:0;margin:12px 0 0;display:grid;gap:8px}
 .tour-preparation .prep-list label{display:flex;flex-direction:row;gap:10px;align-items:flex-start;margin:0;font-size:15px;cursor:pointer;line-height:1.45}
 .tour-preparation .prep-list input{flex:none;width:18px;height:18px;margin-top:2px;accent-color:var(--tour-rust)}

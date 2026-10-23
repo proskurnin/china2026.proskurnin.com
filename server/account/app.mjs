@@ -1,3 +1,4 @@
+import {site} from './site.mjs';
 import {publicPlan,applyRouteUpdates} from './public-plan.mjs';
 import { createServer } from 'node:http';
 import { readFileSync } from 'node:fs';
@@ -8,7 +9,7 @@ export function createApp({dbPath,planPath,origin,tourPath,secure=true}) {
  const db=openDB(dbPath), plan=applyRouteUpdates(JSON.parse(readFileSync(planPath,'utf8'))), publicData=publicPlan(plan);
  const tour=tourPath?JSON.parse(readFileSync(tourPath,'utf8')):null;
  const visitIds=new Set(plan.visits.map(x=>x.id)),checkIds=new Set(plan.checks.map(x=>x.id)),dayIds=new Set(plan.days.map(x=>x.id));
- const cookieName=secure?'__Host-china-session':'china-test-session'; let hashing=0;
+ const cookieName=secure?`__Host-${site.id}-session`:`${site.id}-test-session`; let hashing=0;
  const hashWork=async task=>{if(hashing>=2)throw problem(503,'Вход занят. Повторите через несколько секунд.');hashing++;try{return await task();}finally{hashing--;}};
  const cookie=(value,age=604800)=>`${cookieName}=${value}; Path=/; HttpOnly; SameSite=Lax; Max-Age=${age}${secure?'; Secure':''}`;
  const session=(userId,res)=>{const value=token();db.prepare('INSERT INTO sessions VALUES(?,?,?)').run(digest(value),userId,Date.now()+604800_000);res.setHeader('Set-Cookie',cookie(value));};

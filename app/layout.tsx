@@ -1,4 +1,7 @@
 import type {Metadata} from 'next';
 import './globals.css';
-export const metadata:Metadata={title:'Китай 2026 — наше путешествие',description:'План путешествия по Китаю: маршрут, расписание, бюджет и подготовка.',icons:{icon:'/favicon.svg'}};
-export default function RootLayout({children}:Readonly<{children:React.ReactNode}>){return <html lang="ru"><body>{children}</body></html>}
+import {site} from '@/lib/site';
+export const metadata:Metadata={title:site.title,description:site.description,icons:{icon:'/favicon.svg'}};
+export default function RootLayout({children}:Readonly<{children:React.ReactNode}>){
+ return <html lang="ru">{site.fonts?<head><link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin=""/><link rel="stylesheet" href={site.fonts}/></head>:null}<body>{children}</body></html>;
+}
