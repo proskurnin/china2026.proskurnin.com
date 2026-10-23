@@ -1,0 +1,26 @@
+{
+  "standard": "travel-sites",
+  "version": "1.1",
+  "files": {
+    ".github/workflows/deploy.yml": "aa7e99a5fe7404d283de2912440ace7ac9d8e230fe3f2e4d9edfccb4ea028133",
+    ".nvmrc": "4c42fb8d6334c5cdcac68b93f96c581fb83b1f58cda898cff115e5e941ef717d",
+    "scripts/check-standard.mjs": "8250850c110cd649a9acd4df05487f6098939644285686d87b28f4b205857d0f",
+    "CLAUDE.md": "336cc4fbf19beaada7ccf9986414fa91851a8d7a07dfb3ccbe800a69eed0ab49",
+    "server/account/app.mjs": "0c059cd3ae3abb59f03de992b6bf22f92eca010c5a974c1f3b677a5e80886e44",
+    "server/account/core.mjs": "c5170acbbe2fd73a5cb9e0c162cecfb70bc5f64a0f9157132d01b4108d693151",
+    "server/account/owner-invite.mjs": "e218fbcd00b4502bdd30985f7637ebaa7524dd1f2419b7d9e0c2d6e42fc2415a",
+    "server/account/start.mjs": "78283f693296eedaaf8bb27f9dd5e8bac608847e9001d9cc9ad8ff5b9d7bf1de",
+    "server/account/app.test.mjs": "a2ca77cea59f6dd74c5d9396afc70db8f893f79420e85a95fda80ec9cee1e72a",
+    "app/account/account.tsx": "7ab83a3639ab41fa9f4dfd7417809d206bb837a4e42fc92207039312aad09f45",
+    "app/account/account.css": "46f9c1e1c68cd4341ebb508dcf581a92110ce86f0d5e19dffe2ef3c323c7855f",
+    "app/account/page.tsx": "483f434770f558675cfaef44575d0949298ad021919fb73fe6cfe77eceb4875b",
+    "app/layout.tsx": "7177829baa1fda555a19b2b3b5fa826564991f0f3382425fc4b6b883221bede1",
+    "lib/account-client.ts": "85a22caf32704cc8efb59273a833edb79167fde1674ce262dc5b3336b774b7e3"
+  },
+  "optional": {
+    "app/tour-preparation.tsx": "9cd6305643d8fc3228631a885cb5678ac5b3434aaee0257755c70d5293614a68",
+    "app/tour-google-map.tsx": "359dc3887bb0347b1a98134bfe85df9eb8a53e7d007a7b25a4cb7f7d39228fe5",
+    "app/tour-osm-map.tsx": "e656c3efdf68406fe40a128e3089238cc8ce9edcdf4f2e19e9a6323213736bc0"
+  },
+  "agents": "b9d35033e1bfb6ff1dba76642a6e4b9c12df941b4b07b89aa46cd3e7fd8cd238"
+}
