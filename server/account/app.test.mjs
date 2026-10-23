@@ -38,6 +38,14 @@ test('Roles, sessions, invitations, protected data and owner-only writes',async(
   // Personal data belongs to the signed-in account and survives service restarts.
   assert.equal((await request('/api/trip/storage')).status,401);
   assert.equal((await request('/api/trip/storage',{cookie:cookies.viewer})).status,403);
+  // Private packing list: per account, members only, validated.
+  {const packing=JSON.stringify({checked:{'Одежда::Пижама':true},notes:'Не забыть зарядку'});
+   assert.equal((await request('/api/trip/storage',{method:'PUT',cookie:cookies.viewer,body:{accountId:ids.viewer,key:'packing',value:packing,revision:0}})).status,403);
+   r=await request('/api/trip/storage',{method:'PUT',cookie:cookies.participant,body:{accountId:ids.participant,key:'packing',value:packing,revision:0}});assert.equal(r.status,200);assert.equal(r.data.row.revision,1);
+   assert.equal((await request('/api/trip/storage',{method:'PUT',cookie:cookies.participant,body:{accountId:ids.participant,key:'packing',value:JSON.stringify({checked:{x:'yes'}}),revision:1}})).status,400);
+   assert.equal((await request('/api/trip/storage',{method:'PUT',cookie:cookies.participant,body:{accountId:ids.participant,key:'packing',value:JSON.stringify({checked:{},extra:1}),revision:1}})).status,400);
+   r=await request('/api/trip/storage',{cookie:cookies.participant});assert.equal(r.data.items.packing.value,packing);
+   r=await request('/api/trip/storage',{cookie:owner});assert.equal(r.data.items.packing,undefined);}
   const personal=JSON.stringify({visits:{[visitId]:{note:'Owner note',favorite:true}},checks:{}});
   let saved=await request('/api/trip/storage',{method:'PUT',cookie:owner,body:{key:'personal',value:personal,revision:0,accountId:'owner'}});
   assert.equal(saved.status,200);assert.equal(saved.data.row.revision,1);

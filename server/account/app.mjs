@@ -97,7 +97,7 @@ export function createApp({dbPath,planPath,origin,tourPath,secure=true}) {
    if(['/api/trip/storage','/api/trip/storage/import','/api/trip/storage/archive'].includes(path)){
     requireMember(user);
     const ownerKeys=['plan','history','base-version','draft'];
-    const permitted=key=>['personal','logistics','map-provider','preferences',...ownerKeys].includes(key)&&(!ownerKeys.includes(key)||user.role==='owner');
+    const permitted=key=>['personal','logistics','map-provider','preferences','packing',...ownerKeys].includes(key)&&(!ownerKeys.includes(key)||user.role==='owner');
     if(path.endsWith('/archive')&&method==='GET')return send(res,200,{archives:db.prepare('SELECT key,value,created_at AS createdAt FROM personal_archive WHERE user_id=?').all(user.id)});
     const read=key=>db.prepare('SELECT value,revision FROM personal_storage WHERE user_id=? AND key=?').get(user.id,key);
     if(method==='GET'&&path==='/api/trip/storage')return send(res,200,{userId:user.id,items:Object.fromEntries(db.prepare('SELECT key,value,revision FROM personal_storage WHERE user_id=?').all(user.id).filter(r=>permitted(r.key)).map(r=>[r.key,{value:r.value,revision:r.revision}]))});
@@ -122,6 +122,12 @@ export function createApp({dbPath,planPath,origin,tourPath,secure=true}) {
         if(v.price!==undefined&&v.price!==null&&(!Number.isFinite(v.price)||v.price<0))throw problem(400,'Некорректная цена.');
         if(user.role!=='owner'&&['start','end','price','status'].some(k=>k in v))throw problem(403,'Время, цену и общие отметки изменяет владелец.');
        }
+      }
+      if(key==='packing'){
+       if(Array.isArray(parsed)||Object.keys(parsed).some(k=>!['checked','notes'].includes(k)))throw problem(400,'Некорректный список вещей.');
+       const checked=parsed.checked??{};
+       if(!checked||typeof checked!=='object'||Array.isArray(checked)||Object.keys(checked).length>500||Object.entries(checked).some(([id,v])=>id.length>300||typeof v!=='boolean'))throw problem(400,'Некорректные отметки вещей.');
+       if(parsed.notes!==undefined&&(typeof parsed.notes!=='string'||parsed.notes.length>20000))throw problem(400,'Заметка слишком длинная.');
       }
       if(key==='logistics'&&(!parsed.modes||!parsed.addresses))throw problem(400,'Некорректные настройки маршрутов.');
       if(key==='history'&&(!Array.isArray(parsed)||parsed.length>5))throw problem(400,'Допускается пять версий плана.');

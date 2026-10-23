@@ -1,5 +1,7 @@
 import {readFileSync,writeFileSync,mkdirSync,existsSync,copyFileSync} from 'node:fs';
-const {prices,questions,flightCost,tourPayment,...tour}=JSON.parse(readFileSync('data/tour.json','utf8'));
+const {prices,questions,flightCost,tourPayment,packing,...tour}=JSON.parse(readFileSync('data/tour.json','utf8'));
+// The packing list is private («Подготовка», /api/trip/tour); power bank rules stay public («Полезно»).
+tour.powerbank=packing?.powerbank??null;
 // Ticket-confirmed public flight schedule; leave private source data untouched.
 for(const day of tour.days){
  day.items=day.items.map(item=>item
