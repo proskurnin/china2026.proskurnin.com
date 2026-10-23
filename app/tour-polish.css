@@ -414,3 +414,14 @@
 .china-tour .tour-stop-label,.china-tour .tour-transfer-label{white-space:normal;max-width:260px;line-height:1.4;overflow-wrap:anywhere}
 .china-tour .tour-map-switch>span,.china-tour .tour-stay h3,.china-tour .tour-gallery-copy h3,.china-tour .tour-atlas-stages b{overflow-wrap:anywhere}
 .china-tour .tour-stay h3{font-size:clamp(18px,2vw,24px);line-height:1.4}
+/* «Подготовка»: private packing checklist */
+.tour-preparation .prep-progress{display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px;margin:20px 0}
+.tour-preparation .prep-bar{flex:1 1 200px;height:8px;border-radius:4px;background:var(--tour-line);overflow:hidden}
+.tour-preparation .prep-bar>span{display:block;height:100%;background:var(--tour-rust);transition:width .2s}
+.tour-preparation .prep-progress small{color:#756058}
+.tour-preparation .china-info-grid{align-items:start}
+.tour-preparation .prep-list{list-style:none;padding:0;margin:12px 0 0;display:grid;gap:8px}
+.tour-preparation .prep-list label{display:flex;flex-direction:row;gap:10px;align-items:flex-start;margin:0;font-size:15px;cursor:pointer;line-height:1.45}
+.tour-preparation .prep-list input{flex:none;width:18px;height:18px;margin-top:2px;accent-color:var(--tour-rust)}
+.tour-preparation .prep-list input:checked+span{text-decoration:line-through;color:#8a7a72}
+.tour-preparation .prep-notes{width:100%;margin-top:12px;padding:10px 12px;border:1px solid var(--tour-line);border-radius:8px;font:inherit;background:#fffaf0;resize:vertical}
