@@ -1,6 +1,7 @@
+import {site} from './site.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {mkdtempSync,rmSync,readFileSync,writeFileSync} from 'node:fs';
+import {mkdtempSync,rmSync,readFileSync,writeFileSync,existsSync} from 'node:fs';
 import {tmpdir} from 'node:os';
 import {join,resolve} from 'node:path';
 import {openDB,invite} from './core.mjs';
@@ -9,9 +10,10 @@ import {applyRouteUpdates} from './public-plan.mjs';
 
 test('Roles, sessions, invitations, protected data and owner-only writes',async()=>{
  const sourcePlan={...JSON.parse(readFileSync('data/plan.json','utf8')),days:[{id:'day-1',sourceText:'Private'}],checks:[{id:'check-1'}],visits:[{id:'visit-1',description:'Public',source:'Private'}],expenses:[{id:'expense-1',amount:100}]};
- const dir=mkdtempSync(join(tmpdir(),'china-auth-test-')),dbPath=join(dir,'test.sqlite');
+ const dir=mkdtempSync(join(tmpdir(),site.id+'-auth-test-')),dbPath=join(dir,'test.sqlite');
  const planPath=join(dir,'plan.json');writeFileSync(planPath,JSON.stringify(sourcePlan));
- const tourPath=resolve('data/tour.json');
+ // Sites without private trip data (Europe) have no data/tour.json; the tour checks are skipped there.
+ const tourPath=existsSync('data/tour.json')?resolve('data/tour.json'):undefined;
  const db=openDB(dbPath);db.prepare("INSERT INTO users(id,email,name,role,created_at) VALUES('owner','owner@example.test','Owner','owner',?)").run(new Date().toISOString());
  const ownerToken=invite(db,'owner');db.close();
  const origin='http://127.0.0.1:18929',app=createApp({dbPath,planPath,tourPath,origin,secure:false});await new Promise(r=>app.listen(18929,'127.0.0.1',r));
@@ -33,8 +35,10 @@ test('Roles, sessions, invitations, protected data and owner-only writes',async(
    for(const [path,method,body]of [['/api/trip/state','PATCH',{kind:'check',id:checkId,value:true}],['/api/trip/videos','POST',{url:'https://youtu.be/M7lc1UVf-VE',title:'Test'}],['/api/account/users','POST',{email:'x@y.test',role:'participant'}],['/api/trip/import-marks','POST',{checks:{}}]])assert.equal((await request(path,{method,body,cookie:r.cookie})).status,403);
   }
   assert.equal((await request('/api/trip/tour',{cookie:cookies.viewer})).status,403);
-  assert.deepEqual((await request('/api/trip/tour',{cookie:cookies.participant})).data.prices,JSON.parse(readFileSync(tourPath,'utf8')).prices);
-  assert.deepEqual((await request('/api/trip/tour',{cookie:cookies.participant})).data.packing,JSON.parse(readFileSync(tourPath,'utf8')).packing);
+  if(tourPath){
+    assert.deepEqual((await request('/api/trip/tour',{cookie:cookies.participant})).data.prices,JSON.parse(readFileSync(tourPath,'utf8')).prices);
+    assert.deepEqual((await request('/api/trip/tour',{cookie:cookies.participant})).data.packing,JSON.parse(readFileSync(tourPath,'utf8')).packing);
+  }
   // Personal data belongs to the signed-in account and survives service restarts.
   assert.equal((await request('/api/trip/storage')).status,401);
   assert.equal((await request('/api/trip/storage',{cookie:cookies.viewer})).status,403);
@@ -98,14 +102,14 @@ test('Roles, sessions, invitations, protected data and owner-only writes',async(
 });
 
 test('Secure cookies, expiry, revocation and login throttling',async()=>{
- const dir=mkdtempSync(join(tmpdir(),'china-auth-security-')),dbPath=join(dir,'test.sqlite');
+ const dir=mkdtempSync(join(tmpdir(),site.id+'-auth-security-')),dbPath=join(dir,'test.sqlite');
  const db=openDB(dbPath);db.prepare("INSERT INTO users(id,email,name,role,created_at) VALUES('owner','owner@example.test','Owner','owner',?)").run(new Date().toISOString());
  let token=invite(db,'owner');
- const site='https://china2026.proskurnin.com';
- const app=createApp({dbPath,planPath:resolve('data/plan.json'),origin:site,secure:true});
+ const siteOrigin=site.origin;
+ const app=createApp({dbPath,planPath:resolve('data/plan.json'),origin:siteOrigin,secure:true});
  await new Promise(r=>app.listen(0,'127.0.0.1',r));
  const base='http://127.0.0.1:'+app.address().port;
- const post=async(path,body,cookie='')=>fetch(base+path,{method:'POST',headers:{Origin:site,'Content-Type':'application/json',Cookie:cookie},body:JSON.stringify(body)});
+ const post=async(path,body,cookie='')=>fetch(base+path,{method:'POST',headers:{Origin:siteOrigin,'Content-Type':'application/json',Cookie:cookie},body:JSON.stringify(body)});
  try{
   db.prepare('UPDATE invitations SET expires=0').run();
   assert.equal((await post('/api/account/activate',{token,password:'Owner secure phrase 2026'})).status,400);
@@ -113,7 +117,7 @@ test('Secure cookies, expiry, revocation and login throttling',async()=>{
   const activated=await post('/api/account/activate',{token,password:'Owner secure phrase 2026'});
   assert.equal(activated.status,200);
   const cookie=activated.headers.get('set-cookie');
-  assert.match(cookie,/^__Host-china-session=/);assert.match(cookie,/; Secure/);assert.match(cookie,/; HttpOnly/);assert.match(cookie,/; SameSite=Lax/);assert.match(cookie,/; Path=\//);assert.doesNotMatch(cookie,/Domain=/i);
+  assert.ok(cookie.startsWith(`__Host-${site.id}-session=`));assert.match(cookie,/; Secure/);assert.match(cookie,/; HttpOnly/);assert.match(cookie,/; SameSite=Lax/);assert.match(cookie,/; Path=\//);assert.doesNotMatch(cookie,/Domain=/i);
   const getMe=()=>fetch(base+'/api/account/me',{headers:{Cookie:cookie.split(';')[0]}}).then(r=>r.json());
   assert.equal((await getMe()).user.id,'owner');
   db.prepare('UPDATE users SET active=0').run();assert.equal((await getMe()).user,null);
