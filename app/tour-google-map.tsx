@@ -5,17 +5,17 @@ import {setOptions,importLibrary} from '@googlemaps/js-api-loader';
 import {MarkerClusterer} from '@googlemaps/markerclusterer';
 import {routeForDay,type TourDay} from '@/lib/tour-route';
 import places from '@/data/tour-places.json';
-let loading:Promise<void>|undefined;
+let loading:Promise<void>|undefined,mapId='DEMO_MAP_ID';
 function loadMaps(){return loading??=(async()=>{
  const response=await fetch('/maps-config.json');if(!response.ok)throw Error('Missing configuration');
- const {key}=await response.json() as {key?:unknown};if(typeof key!=='string'||!key)throw Error('Missing key');
+ const {key,mapId:id}=await response.json() as {key?:unknown;mapId?:unknown};if(typeof key!=='string'||!key)throw Error('Missing key');if(typeof id==='string'&&id)mapId=id;
  setOptions({key,v:'weekly',language:'ru'});await Promise.all([importLibrary('maps'),importLibrary('marker')]);
 })().catch(error=>{loading=undefined;throw error;});}
 export default function TourGoogleMap({day,selected,onSelect,onFallback}:{day:TourDay;selected:string|null;onSelect:(id:string)=>void;onFallback:()=>void}){
  const node=useRef<HTMLDivElement>(null),map=useRef<google.maps.Map|null>(null),callback=useRef(onSelect);callback.current=onSelect;
  const [ready,setReady]=useState(false),[error,setError]=useState(false);
  useEffect(()=>{let live=true;const fail=()=>{if(live)setError(true);};const old=(window as any).gm_authFailure;(window as any).gm_authFailure=fail;
-  loadMaps().then(()=>{if(!live||!node.current)return;map.current=new google.maps.Map(node.current,{center:{lat:40,lng:80},zoom:3,mapId:'DEMO_MAP_ID',gestureHandling:'cooperative',mapTypeControl:true,streetViewControl:false,fullscreenControl:true});setReady(true);}).catch(fail);
+  loadMaps().then(()=>{if(!live||!node.current)return;map.current=new google.maps.Map(node.current,{center:{lat:40,lng:80},zoom:3,mapId,gestureHandling:'cooperative',mapTypeControl:true,streetViewControl:false,fullscreenControl:true});setReady(true);}).catch(fail);
   return()=>{live=false;if(map.current)google.maps.event.clearInstanceListeners(map.current);map.current=null;if((window as any).gm_authFailure===fail)(window as any).gm_authFailure=old;};
  },[]);
  useEffect(()=>{if(!ready||!map.current)return;const m=map.current,bounds=new google.maps.LatLngBounds(),data=routeForDay(day),lines:google.maps.Polyline[]=[],markers:google.maps.marker.AdvancedMarkerElement[]=[];

@@ -7,6 +7,8 @@
   },
   "scripts": {
     "dev": "vinext dev",
+    "assets": "bash scripts/fetch-assets.sh",
+    "check": "node --test server/account/*.test.mjs scripts/transport.test.mjs && tsc --noEmit && node scripts/check-place-guides.mjs",
     "build": "node scripts/check-place-guides.mjs && node scripts/export-public-tour.mjs && vinext build && node scripts/export-public-tour.mjs --apache",
     "start": "wrangler dev --config dist/server/wrangler.json",
     "lint": "oxlint",

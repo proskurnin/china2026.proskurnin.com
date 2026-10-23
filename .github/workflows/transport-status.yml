@@ -16,10 +16,10 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 8
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
         with:
-          node-version: '22.22.2'
+          node-version-file: .nvmrc
       - name: Check active monitoring period
         id: period
         run: |
@@ -36,26 +36,14 @@ jobs:
           DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
           DEPLOY_KNOWN_HOSTS: ${{ secrets.DEPLOY_KNOWN_HOSTS }}
           DEPLOY_HOST: ${{ vars.DEPLOY_HOST || '80.87.199.223' }}
-          DEPLOY_USER: ${{ vars.DEPLOY_USER || 'china2026-deploy' }}
-          DEPLOY_PORT: ${{ vars.DEPLOY_PORT || '22' }}
         run: |
           install -d -m 700 ~/.ssh
           printf '%s\n' "$DEPLOY_SSH_KEY" > ~/.ssh/id_ed25519
           printf '%s\n' "$DEPLOY_KNOWN_HOSTS" > ~/.ssh/known_hosts
           chmod 600 ~/.ssh/id_ed25519 ~/.ssh/known_hosts
-          scp -P "$DEPLOY_PORT" -o ConnectTimeout=20 -o BatchMode=yes -o StrictHostKeyChecking=yes transport-status.json "$DEPLOY_USER@$DEPLOY_HOST:/tmp/china-status-$GITHUB_RUN_ID.json"
-          ssh -p "$DEPLOY_PORT" -o ConnectTimeout=20 -o BatchMode=yes -o StrictHostKeyChecking=yes "$DEPLOY_USER@$DEPLOY_HOST" "bash -s -- $GITHUB_RUN_ID" <<'REMOTE'
-          set -euo pipefail
-          run_id=$1
-          [[ "$run_id" =~ ^[0-9]+$ ]]
-          root=/var/www/china2026.proskurnin.com
-          exec 9> "$root/deploy.lock"
-          flock -w 120 9
-          cp "/tmp/china-status-$run_id.json" "$root/current/transport-status.json.next"
-          chmod 644 "$root/current/transport-status.json.next"
-          mv -f "$root/current/transport-status.json.next" "$root/current/transport-status.json"
-          rm -f "/tmp/china-status-$run_id.json"
-          REMOTE
+          # Restricted SSH command of travel-site-deploy: replaces only this whitelisted file in the current release.
+          ssh -T -o ConnectTimeout=20 -o BatchMode=yes -o StrictHostKeyChecking=yes \
+            "china2026-deploy@$DEPLOY_HOST" "publish transport-status.json" < transport-status.json
       - name: Clean runner credentials
         if: always()
         run: rm -f ~/.ssh/id_ed25519 ~/.ssh/known_hosts

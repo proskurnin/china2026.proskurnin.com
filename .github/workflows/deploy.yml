@@ -1,86 +1,98 @@
-name: Release China 2026 to server
+# Shared travel-site pipeline. Keep this file IDENTICAL in china2026, europe2026 and turkey2027
+# (see AGENTS.md, «Стандарт сайтов путешествий»). Site-specific steps live in package.json:
+#   npm run assets (optional) -> npm run check -> npm run build -> dist/client
+# Pull requests run the checks and the build; a push to main also deploys.
+name: Deploy
+
 on:
   push:
     branches: [main]
-    paths-ignore: ['public/transport-verified.json', 'scripts/check-transport-status.mjs']
+  pull_request:
+    branches: [main]
   workflow_dispatch:
+
 permissions:
   contents: read
+
 concurrency:
-  group: china2026-production
+  group: deploy-${{ github.repository }}-${{ github.ref }}
   cancel-in-progress: false
+
+env:
+  DOMAIN: ${{ github.event.repository.name }}
+  DEPLOY_HOST: ${{ vars.DEPLOY_HOST || '80.87.199.223' }}
+
 jobs:
-  release:
-    runs-on: ubuntu-latest
+  build:
+    runs-on: ubuntu-24.04
     timeout-minutes: 20
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
         with:
-          node-version: '22.22.2'
+          node-version-file: .nvmrc
           cache: npm
-      - name: Reuse owner Google Maps configuration from Europe
+      - run: npm ci
+      - name: Google Maps configuration
+        env:
+          GOOGLE_MAPS_KEY: ${{ secrets.GOOGLE_MAPS_KEY }}
+          GOOGLE_MAPS_MAP_ID: ${{ vars.GOOGLE_MAPS_MAP_ID }}
         run: |
-          curl --fail --silent --show-error --retry 2 --max-time 20 https://europe2026.proskurnin.com/maps-config.json -o public/maps-config.json
-          node -e 'const c=JSON.parse(require("fs").readFileSync("public/maps-config.json","utf8")); if(typeof c.key!=="string" || !c.key) process.exit(1)'
-      - name: Prepare socket and adapter photographs
+          test -n "$GOOGLE_MAPS_KEY" || { echo '::error::Set the GOOGLE_MAPS_KEY repository secret'; exit 1; }
+          node -e 'const c={key:process.env.GOOGLE_MAPS_KEY}; if(process.env.GOOGLE_MAPS_MAP_ID) c.mapId=process.env.GOOGLE_MAPS_MAP_ID;
+            require("fs").writeFileSync("public/maps-config.json", JSON.stringify(c)+"\n")'
+      - run: npm run assets --if-present
+      - run: npm run check
+      - run: npm run build
+      - name: Bundle site and account service
         run: |
-          mkdir -p public/images/power
-          curl --fail --location --silent --show-error --retry 2 --max-time 30 'https://upload.wikimedia.org/wikipedia/commons/c/c6/Chinasocket.jpg' -o public/images/power/china-socket.jpg
-          curl --fail --location --silent --show-error --retry 2 --max-time 30 'https://wazza.com.ua/17463-thickbox_default/perehodnik-vilki-eu-us-uk-au-cn-na-tip-i-13a.jpg' -o public/images/power/china-adapter.jpg
-          file public/images/power/*.jpg
-      - name: Install, check and build
-        run: |
-          npm ci
-          npm run test:auth
-          npx tsc --noEmit
-          npm run build
           test -s dist/client/index.html
+          test -s dist/client/account/index.html
+          test -s dist/client/maps-config.json
           printf '%s\n' "$GITHUB_SHA" > dist/client/release.txt
-          tar -czf "$RUNNER_TEMP/china2026.tar.gz" -C dist/client .
-      - uses: actions/upload-artifact@v4
+          mkdir -p bundle/account
+          cp -a dist/client bundle/site
+          cp server/account/*.mjs bundle/account/
+          rm -f bundle/account/*.test.mjs
+          tar -czf bundle.tgz -C bundle site account
+      - uses: actions/upload-artifact@v7
         with:
-          name: china2026-${{ github.sha }}
-          path: ${{ runner.temp }}/china2026.tar.gz
+          name: bundle-${{ github.sha }}
+          path: bundle.tgz
           retention-days: 14
-      - name: Require installed authentication backend
-        run: |
-          curl --fail --silent --show-error --max-time 15 https://china2026.proskurnin.com/api/account/me -o "$RUNNER_TEMP/account-health.json"
-          node -e 'const d=require(process.env.RUNNER_TEMP+"/account-health.json"); if(d.user!==null) process.exit(1)'
-      - name: Configure SSH
+
+  deploy:
+    needs: build
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    concurrency:
+      group: production-${{ github.repository }}
+      cancel-in-progress: false
+    steps:
+      - uses: actions/download-artifact@v8
+        with:
+          name: bundle-${{ github.sha }}
+      - name: Deploy over the restricted SSH command
         env:
           DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
           DEPLOY_KNOWN_HOSTS: ${{ secrets.DEPLOY_KNOWN_HOSTS }}
         run: |
-          test -n "$DEPLOY_SSH_KEY" || { echo 'Missing DEPLOY_SSH_KEY'; exit 1; }
-          test -n "$DEPLOY_KNOWN_HOSTS" || { echo 'Missing DEPLOY_KNOWN_HOSTS'; exit 1; }
-          install -d -m 700 ~/.ssh
-          printf '%s\n' "$DEPLOY_SSH_KEY" > ~/.ssh/id_ed25519
-          printf '%s\n' "$DEPLOY_KNOWN_HOSTS" > ~/.ssh/known_hosts
-          chmod 600 ~/.ssh/id_ed25519 ~/.ssh/known_hosts
-      - name: Upload and activate release
-        env:
-          DEPLOY_HOST: ${{ vars.DEPLOY_HOST || '80.87.199.223' }}
-          DEPLOY_USER: ${{ vars.DEPLOY_USER || 'china2026-deploy' }}
-          DEPLOY_PORT: ${{ vars.DEPLOY_PORT || '22' }}
+          set -euo pipefail
+          test -n "$DEPLOY_SSH_KEY" && test -n "$DEPLOY_KNOWN_HOSTS"
+          ssh_dir=$(mktemp -d); trap 'rm -rf "$ssh_dir"' EXIT
+          printf '%s\n' "$DEPLOY_SSH_KEY" > "$ssh_dir/key"
+          printf '%s\n' "$DEPLOY_KNOWN_HOSTS" > "$ssh_dir/known_hosts"
+          chmod 600 "$ssh_dir/key" "$ssh_dir/known_hosts"
+          ssh -T -i "$ssh_dir/key" -o BatchMode=yes -o IdentitiesOnly=yes \
+            -o StrictHostKeyChecking=yes -o UserKnownHostsFile="$ssh_dir/known_hosts" -o ConnectTimeout=20 \
+            "${DOMAIN%%.*}-deploy@$DEPLOY_HOST" "deploy $GITHUB_SHA $GITHUB_RUN_ID" < bundle.tgz
+      - name: Verify the public release
         run: |
-          scp -P "$DEPLOY_PORT" -o BatchMode=yes -o StrictHostKeyChecking=yes \
-            "$RUNNER_TEMP/china2026.tar.gz" \
-            "$DEPLOY_USER@$DEPLOY_HOST:/tmp/china2026-$GITHUB_SHA-$GITHUB_RUN_ID.tar.gz"
-          ssh -p "$DEPLOY_PORT" -o BatchMode=yes -o StrictHostKeyChecking=yes \
-            "$DEPLOY_USER@$DEPLOY_HOST" "bash -s -- $GITHUB_SHA $GITHUB_RUN_ID" \
-            < deploy/activate-release.sh
-      - name: Verify public HTTPS release
-        run: |
-          for attempt in 1 2 3 4 5; do
-            if [ "$(curl --fail --silent --show-error --max-time 15 https://china2026.proskurnin.com/release.txt)" = "$GITHUB_SHA" ]; then
-              echo 'Published release verified over HTTPS'
-              exit 0
+          for attempt in 1 2 3 4 5 6; do
+            if [ "$(curl --fail --silent --max-time 15 "https://$DOMAIN/release.txt")" = "$GITHUB_SHA" ]; then
+              echo "Published $GITHUB_SHA on https://$DOMAIN"; exit 0
             fi
             sleep 5
           done
-          echo 'HTTPS release verification failed; inspect server and TLS configuration'
-          exit 1
-      - name: Remove runner SSH credentials
-        if: always()
-        run: rm -f ~/.ssh/id_ed25519 ~/.ssh/known_hosts
+          echo "::error::https://$DOMAIN/release.txt does not show $GITHUB_SHA"; exit 1
