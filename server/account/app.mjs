@@ -1,13 +1,14 @@
 import {site} from './site.mjs';
 import {publicPlan,applyRouteUpdates} from './public-plan.mjs';
 import { createServer } from 'node:http';
-import { readFileSync } from 'node:fs';
+import { readFileSync,existsSync } from 'node:fs';
 import { randomUUID } from 'node:crypto';
 import { openDB,digest,token,emailAddress,passwordHash,passwordMatches,passwordValid,publicUser,transaction,invite,youtubeId } from './core.mjs';
 
 export function createApp({dbPath,planPath,origin,tourPath,secure=true}) {
  const db=openDB(dbPath), plan=applyRouteUpdates(JSON.parse(readFileSync(planPath,'utf8'))), publicData=publicPlan(plan);
- const tour=tourPath?JSON.parse(readFileSync(tourPath,'utf8')):null;
+ // Private trip data is optional: sites without data/tour.json (Europe) answer /api/trip/tour with empty fields.
+ const tour=tourPath&&existsSync(tourPath)?JSON.parse(readFileSync(tourPath,'utf8')):null;
  const visitIds=new Set(plan.visits.map(x=>x.id)),checkIds=new Set(plan.checks.map(x=>x.id)),dayIds=new Set(plan.days.map(x=>x.id));
  const cookieName=secure?`__Host-${site.id}-session`:`${site.id}-test-session`; let hashing=0;
  const hashWork=async task=>{if(hashing>=2)throw problem(503,'Вход занят. Повторите через несколько секунд.');hashing++;try{return await task();}finally{hashing--;}};

@@ -8,6 +8,12 @@ import {openDB,invite} from './core.mjs';
 import {createApp} from './app.mjs';
 import {applyRouteUpdates} from './public-plan.mjs';
 
+test('Service starts without private trip data',()=>{
+ const dir=mkdtempSync(join(tmpdir(),site.id+'-no-tour-'));
+ try{const app=createApp({dbPath:join(dir,'test.sqlite'),planPath:resolve('data/plan.json'),tourPath:join(dir,'missing-tour.json'),origin:site.origin});app.close();}
+ finally{rmSync(dir,{recursive:true,force:true});}
+});
+
 test('Roles, sessions, invitations, protected data and owner-only writes',async()=>{
  const sourcePlan={...JSON.parse(readFileSync('data/plan.json','utf8')),days:[{id:'day-1',sourceText:'Private'}],checks:[{id:'check-1'}],visits:[{id:'visit-1',description:'Public',source:'Private'}],expenses:[{id:'expense-1',amount:100}]};
  const dir=mkdtempSync(join(tmpdir(),site.id+'-auth-test-')),dbPath=join(dir,'test.sqlite');
