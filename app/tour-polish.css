@@ -426,3 +426,12 @@
 .tour-preparation .prep-list input{flex:none;width:18px;height:18px;margin-top:2px;accent-color:var(--tour-rust)}
 .tour-preparation .prep-list input:checked+span{text-decoration:line-through;color:#8a7a72}
 .tour-preparation .prep-notes{width:100%;margin-top:12px;padding:10px 12px;border:1px solid var(--tour-line);border-radius:8px;font:inherit;background:#fffaf0;resize:vertical}
+
+/* Stretched primary link: the entire place card opens its own page. */
+.china-tour .tour-gallery-card{position:relative}
+.china-tour .tour-gallery-place-link::after{content:"";position:absolute;inset:0;z-index:1}
+.china-tour .tour-gallery-place-link:focus-visible{outline:none}
+.china-tour .tour-gallery-place-link:focus-visible::after{outline:3px solid #a3352c;outline-offset:4px;border-radius:8px}
+.china-tour .tour-gallery-card:has(.tour-gallery-place-link:hover){box-shadow:0 8px 24px #702b3820}
+.china-tour .tour-gallery-card figcaption a,.china-tour .tour-gallery-copy button{position:relative;z-index:2}
+.china-tour .tour-gallery-read{display:block;font:13px/1.5 Arial,sans-serif;color:#a3352c;margin-top:14px}

@@ -14,3 +14,16 @@ if(process.argv.includes('--apache')&&existsSync('dist/client/account.html')){
  mkdirSync('dist/client/account',{recursive:true});
  copyFileSync('dist/client/account.html','dist/client/account/index.html');
 }
+
+// Materialize clean attraction URLs for Apache and require all pages in the bundle.
+if(process.argv.includes('--apache')){
+ const places=JSON.parse(readFileSync('data/tour-places.json','utf8'));
+ for(const place of places){
+  const base='dist/client/places/'+place.id;
+  if(existsSync(base+'.html')){mkdirSync(base,{recursive:true});copyFileSync(base+'.html',base+'/index.html');}
+  if(!existsSync(base+'/index.html'))throw new Error('Missing exported attraction page: '+place.id);
+  const html=readFileSync(base+'/index.html','utf8');
+  if(!html.includes(place.chinese)||!(html.includes('youtube.com/watch') || html.includes('youtu.be/')))throw new Error('Incomplete attraction page: '+place.id);
+ }
+ console.log('Verified '+places.length+' exported attraction pages with descriptions and video links');
+}
